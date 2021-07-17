@@ -52,6 +52,8 @@ sudo mkdir -p /media/local
 sudo chown $USER: /media/local
 chmod 770 /media/local
 
+ln -s /media/local $HOME/git/local 2>/dev/null || true
+
 # Install GitCid CI/CD
 if [ ! -d "gitcid" ]; then
 	source <(curl -sL https://tinyurl.com/gitcid)
