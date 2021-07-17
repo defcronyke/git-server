@@ -30,7 +30,7 @@ git pull
 echo "usb-mount-git installed"
 cd ..
 
-sudo mkdir /opt/git
+sudo mkdir -p /opt/git
 sudo chown $USER: /opt/git
 chmod 770 /opt/git
 
