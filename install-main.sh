@@ -48,12 +48,16 @@ fi
 # Make a new GitCid git remote (a.k.a. "bare" git repo)
 if [ ! -d "$HOME/git/local/repo1.git" ]; then
 	.gc/new-remote.sh ~/git/local/repo1.git
+
+	# copy it to an external "~/git/disk1" if mounted as well
+	cp -r ~/git/local/repo1.git ~/git/disk1/repo1.git || true
 fi
 
 echo
 cd ~
 
 if [ ! -d "$HOME/repo1" ]; then
+	git clone ~/git/disk1/repo1.git || \
 	git clone ~/git/local/repo1.git
 	cd ~/repo1
 	source <(curl -sL https://tinyurl.com/gitcid) -e
