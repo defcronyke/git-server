@@ -24,6 +24,7 @@ if [ ! -d "usb-mount-git" ]; then
 	git clone https://gitlab.com/defcronyke/usb-mount-git.git
 fi
 
+current_dir="$PWD"
 cd usb-mount-git
 git pull
 ./install-usb-mount-git.sh && \
@@ -36,6 +37,13 @@ chmod 770 /opt/git
 
 # Add symlink: ~/git -> /opt/git
 ln -s /opt/git $HOME/git 2>/dev/null || true
+
+cd $HOME/git
+git init
+echo '*' | tee .gitignore
+git add .
+git commit -m "Initial commit"
+cd "$current_dir"
 
 sudo mkdir -p /media/local
 sudo chown $USER: /media/local
