@@ -33,6 +33,10 @@ cd ..
 # Add symlink: ~/git -> ~/mnt -> /media
 ln -s $HOME/mnt $HOME/git 2>/dev/null
 
+sudo mkdir -p git/local
+sudo chown $USER: git/local
+chmod 770 git/local
+
 # Install GitCid CI/CD
 if [ ! -d "gitcid" ]; then
 	source <(curl -sL https://tinyurl.com/gitcid)
@@ -42,14 +46,14 @@ else
 fi
 
 # Make a new GitCid git remote (a.k.a. "bare" git repo)
-if [ ! -d "$HOME/repo1.git" ]; then
-	.gc/new-remote.sh ~/repo1.git
+if [ ! -d "$HOME/git/local/repo1.git" ]; then
+	.gc/new-remote.sh ~/git/local/repo1.git
 fi
 
 # Start git instaweb: http://localhost:1234
 echo
 echo "Starting git instaweb..."
-cd ~/repo1.git
+cd ~/git/local/repo1.git
 git instaweb 2>/dev/null
 
 if [ $? -ne 0 ]; then
@@ -61,10 +65,10 @@ if [ $? -ne 0 ]; then
 fi
 
 echo
-cd ..
+cd ~
 
 if [ ! -d "$HOME/repo1" ]; then
-	git clone ~/repo1.git
+	git clone ~/git/local/repo1.git
 	cd ~/repo1
 	source <(curl -sL https://tinyurl.com/gitcid) -e
 else
