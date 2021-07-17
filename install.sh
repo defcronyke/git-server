@@ -35,9 +35,15 @@ cd ..
 # Add symlink: ~/git -> ~/mnt -> /media
 ln -s $HOME/mnt $HOME/git 2>/dev/null
 
-# Installing GitCid CI/CD
+# Install GitCid CI/CD
+if [ ! -d "gitcid" ]; then
+	source <(curl -sL https://tinyurl.com/gitcid)
+else
+	cd gitcid
+	git pull
+fi
 
-source <(curl -sL https://tinyurl.com/gitcid)
+# Make a new GitCid git remote (a.k.a. "bare" git repo)
 .gc/new-remote.sh ~/repo1.git
 cd ~/repo1.git
 git instaweb
