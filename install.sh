@@ -13,9 +13,13 @@ if [ ! -d "usb-mount" ]; then
 fi
 
 cd usb-mount
+git pull
 ./install-usb-mount.sh && \
 echo "usb-mount installed"
 cd ..
+
+# Add symlink: ~/git -> ~/mnt -> /media
+ln -s $HOME/mnt $HOME/git 2>/dev/null
 
 echo
 echo "git server utilities installed"
