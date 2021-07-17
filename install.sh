@@ -33,6 +33,21 @@ cd ..
 # Add symlink: ~/git -> ~/mnt -> /media
 ln -s $HOME/mnt $HOME/git 2>/dev/null
 
+cd ..
+
+# Installing GitCid CI/CD
+
+source <(curl -sL https://tinyurl.com/gitcid)
+.gc/new-remote.sh ~/git/repo1.git
+cd ~/git/repo1.git
+git instaweb
+cd ~
+
+git clone ~/git/repo1.git
+cd ~/git/repo1
+source <(curl -sL https://tinyurl.com/gitcid) -e
+git remote -v
+
 echo
 echo "git server utilities installed"
 echo
