@@ -49,8 +49,22 @@ if [ ! -d "$HOME/repo1.git" ]; then
 fi
 
 # Start git instaweb: http://localhost:1234
+echo
+echo "Starting git instaweb..."
 cd ~/repo1.git
 git instaweb 2>/dev/null
+
+if [ $? -ne 0 ]; then
+	echo
+	echo "Restarting git instaweb because it was already running..."
+	echo
+	git instaweb --stop
+	git instaweb
+fi
+
+echo
+echo "git instaweb started"
+
 cd ..
 
 if [ ! -d "$HOME/repo1" ]; then
