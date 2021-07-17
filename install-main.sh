@@ -20,13 +20,16 @@ sudo ufw default allow outgoing
 echo
 echo "Installing usb-mount-git..."
 
+current_dir="$PWD"
+
 if [ ! -d "usb-mount-git" ]; then
 	git clone https://gitlab.com/defcronyke/usb-mount-git.git
+	cd usb-mount-git
+else
+	cd usb-mount-git
+	git pull
 fi
 
-current_dir="$PWD"
-cd usb-mount-git
-git pull
 ./install-usb-mount-git.sh && \
 echo "usb-mount-git installed"
 cd ..
