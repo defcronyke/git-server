@@ -61,6 +61,7 @@ if [ $? -ne 0 ]; then
 	echo "Restarting git instaweb because it was already running..."
 	echo
 	git instaweb --stop
+	sudo killall lighttpd
 	git instaweb
 fi
 
