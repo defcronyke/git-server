@@ -44,16 +44,24 @@ else
 fi
 
 # Make a new GitCid git remote (a.k.a. "bare" git repo)
-.gc/new-remote.sh ~/repo1.git
+if [ ! -d "$HOME/repo1.git" ]; then
+	.gc/new-remote.sh ~/repo1.git
+fi
 
 # Start git instaweb: http://localhost:1234
 cd ~/repo1.git
 git instaweb 2>/dev/null
 cd ..
 
-git clone ~/repo1.git
-cd ~/repo1
-source <(curl -sL https://tinyurl.com/gitcid) -e
+if [ ! -d "$HOME/repo1" ]; then
+	git clone ~/repo1.git
+	cd ~/repo1
+	source <(curl -sL https://tinyurl.com/gitcid) -e
+else
+	cd ~/repo1
+	git pull
+fi
+
 git remote -v
 
 echo
