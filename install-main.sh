@@ -93,7 +93,8 @@ cd ~/git
 sudo chown -R $USER: /home/pi/git/.git/gitweb
 sudo chown $USER: /home/pi/git/.git/pid
 
-GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
+git instaweb 2>/dev/null
+#GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
 if [ $? -ne 0 ]; then
         echo
@@ -101,7 +102,8 @@ if [ $? -ne 0 ]; then
         echo
         git instaweb --stop
         sudo killall lighttpd
-        GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
+	git instaweb
+        #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
 fi
 
 cd ~
