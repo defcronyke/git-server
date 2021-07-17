@@ -18,24 +18,28 @@ sudo ufw default allow outgoing
 #sudo ufw --force enable
 
 echo
-echo "Installing usb-mount..."
+echo "Installing usb-mount-git..."
 
-if [ ! -d "usb-mount" ]; then
-	git clone https://gitlab.com/defcronyke/usb-mount.git
+if [ ! -d "usb-mount-git" ]; then
+	git clone https://gitlab.com/defcronyke/usb-mount-git.git
 fi
 
-cd usb-mount
+cd usb-mount-git
 git pull
-./install-usb-mount.sh && \
-echo "usb-mount installed"
+./install-usb-mount-git.sh && \
+echo "usb-mount-git installed"
 cd ..
 
-# Add symlink: ~/git -> ~/mnt -> /media
-ln -s $HOME/mnt $HOME/git 2>/dev/null
+sudo mkdir /opt/git
+sudo chown $USER: /opt/git
+chmod 770 /opt/git
 
-sudo mkdir -p $HOME/git/local
-sudo chown $USER: $HOME/git/local
-chmod 770 $HOME/git/local
+# Add symlink: ~/git -> /opt/git
+ln -s /opt/git $HOME/git 2>/dev/null || true
+
+sudo mkdir -p /media/local
+sudo chown $USER: /media/local
+chmod 770 /media/local
 
 # Install GitCid CI/CD
 if [ ! -d "gitcid" ]; then
@@ -46,19 +50,15 @@ else
 fi
 
 # Make a new GitCid git remote (a.k.a. "bare" git repo)
-if [ ! -d "$HOME/git/local/repo1.git" ]; then
-	.gc/new-remote.sh ~/git/local/repo1.git
-
-	# copy it to an external "~/git/disk1" if mounted as well
-	cp -r ~/git/local/repo1.git ~/git/disk1/repo1.git || true
+if [ ! -d "/media/local/repo1.git" ]; then
+	.gc/new-remote.sh /media/local/repo1.git
 fi
 
 echo
 cd ~
 
 if [ ! -d "$HOME/repo1" ]; then
-	git clone ~/git/disk1/repo1.git || \
-	git clone ~/git/local/repo1.git
+	git clone /media/local/repo1.git
 	cd ~/repo1
 	source <(curl -sL https://tinyurl.com/gitcid) -e
 else
@@ -71,9 +71,7 @@ git remote -v
 # Start git instaweb: http://localhost:1234
 echo
 echo "Starting git instaweb..."
-# Try removable disk1 first, fallback to local disk.
-cd ~/git/disk1/repo1.git || \
-cd ~/git/local/repo1.git
+cd ~/git
 GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
 if [ $? -ne 0 ]; then
