@@ -67,6 +67,8 @@ git remote -v
 # Start git instaweb: http://localhost:1234
 echo
 echo "Starting git instaweb..."
+# Try removable disk1 first, fallback to local disk.
+cd ~/git/disk1/repo1.git || \
 cd ~/git/local/repo1.git
 GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
