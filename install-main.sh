@@ -60,6 +60,7 @@ if [ $? -ne 0 ]; then
 	git instaweb
 fi
 
+echo
 cd ..
 
 if [ ! -d "$HOME/repo1" ]; then
