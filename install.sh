@@ -5,6 +5,18 @@ echo
 
 ./install-packages.sh
 
+# ufw defaults
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# NOTE: Uncomment below lines to enable
+# some permissive firewall rules if you
+# want. Otherwise firewall is off by
+# default.
+#sudo ufw allow 22/tcp
+#sudo ufw allow 80/tcp
+#sudo ufw --force enable
+
 echo
 echo "Installing usb-mount..."
 
