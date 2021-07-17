@@ -35,8 +35,6 @@ cd ..
 # Add symlink: ~/git -> ~/mnt -> /media
 ln -s $HOME/mnt $HOME/git 2>/dev/null
 
-cd ..
-
 # Installing GitCid CI/CD
 
 source <(curl -sL https://tinyurl.com/gitcid)
