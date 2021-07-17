@@ -39,7 +39,9 @@ sudo chown $USER: /opt/git
 chmod 770 /opt/git
 
 # Add symlink: ~/git -> /opt/git
-ln -s /opt/git $HOME/git 2>/dev/null || true
+if [ ! -d "$HOME/git" ]; then
+	ln -s /opt/git $HOME/git 2>/dev/null || true
+fi
 
 cd $HOME/git
 git init
@@ -52,7 +54,9 @@ sudo mkdir -p /media/local
 sudo chown $USER: /media/local
 chmod 770 /media/local
 
-ln -s /media/local $HOME/git/local 2>/dev/null || true
+if [ ! -d "$HOME/git/local" ]; then
+	ln -s /media/local $HOME/git/local 2>/dev/null || true
+fi
 
 # Install GitCid CI/CD
 if [ ! -d "gitcid" ]; then
