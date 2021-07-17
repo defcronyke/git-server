@@ -13,8 +13,8 @@ sudo ufw default allow outgoing
 # some permissive firewall rules if you
 # want. Otherwise firewall is off by
 # default.
-#sudo ufw allow 22/tcp
-#sudo ufw allow 80/tcp
+#sudo ufw allow 22/tcp   # allow ssh
+#sudo ufw allow 1234/tcp # allow git instaweb lighttpd
 #sudo ufw --force enable
 
 echo
