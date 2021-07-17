@@ -80,6 +80,10 @@ git remote -v
 echo
 echo "Starting git instaweb..."
 cd ~/git
+
+sudo chown -R $USER: /home/pi/git/.git/gitweb
+sudo chown $USER: /home/pi/git/.git/pid
+
 GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
 if [ $? -ne 0 ]; then
