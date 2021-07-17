@@ -3,6 +3,8 @@ echo
 echo "Installing git server utilities..."
 echo
 
+git pull
+
 ./install-packages.sh
 
 # ufw defaults
