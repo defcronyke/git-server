@@ -33,9 +33,9 @@ cd ..
 # Add symlink: ~/git -> ~/mnt -> /media
 ln -s $HOME/mnt $HOME/git 2>/dev/null
 
-sudo mkdir -p git/local
-sudo chown $USER: git/local
-chmod 770 git/local
+sudo mkdir -p $HOME/git/local
+sudo chown $USER: $HOME/git/local
+chmod 770 $HOME/git/local
 
 # Install GitCid CI/CD
 if [ ! -d "gitcid" ]; then
