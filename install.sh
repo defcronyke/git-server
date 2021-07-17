@@ -40,13 +40,13 @@ cd ..
 # Installing GitCid CI/CD
 
 source <(curl -sL https://tinyurl.com/gitcid)
-.gc/new-remote.sh ~/git/repo1.git
-cd ~/git/repo1.git
+.gc/new-remote.sh ~/repo1.git
+cd ~/repo1.git
 git instaweb
-cd ~
+cd ..
 
 git clone ~/git/repo1.git
-cd ~/git/repo1
+cd ~/repo1
 source <(curl -sL https://tinyurl.com/gitcid) -e
 git remote -v
 
