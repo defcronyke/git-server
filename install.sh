@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git pull
+git pull 2>/dev/null
 
 ./install-main.sh
 
