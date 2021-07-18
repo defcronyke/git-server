@@ -17,6 +17,21 @@ sudo ufw default allow outgoing
 #sudo ufw allow 1234/tcp # allow git instaweb lighttpd
 #sudo ufw --force enable
 
+# Respond to broadcast pings for current DNS discovery protocol (subject to change)
+sudo cat /etc/sysctl.conf | grep "net.ipv4.icmp_echo_ignore_broadcasts = 0"
+if [ $? -ne 0 ]; then
+	echo
+	echo "Enabling broadcast ping response for DNS discovery..."
+	echo "net.ipv4.icmp_echo_ignore_broadcasts = 0" | sudo tee -a /etc/sysctl.conf
+	sudo sysctl --system
+	echo "broadcast ping response enabled"
+	echo
+else
+	echo
+	echo "info: broadcast ping response is already enabled, not enabling it again"
+	echo
+fi
+
 echo
 echo "Installing usb-mount-git..."
 
