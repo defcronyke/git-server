@@ -10,8 +10,21 @@ curl -sL https://tinyurl.com/git-server-init | bash
 
 ### Optional Suggestion
 
-Install GitCid into any existing git repo:
+- Install GitCid into any existing git repo:
 
-```shell
-source <(curl -sL https://tinyurl.com/gitcid) -e
-```
+  ```shell
+  source <(curl -sL https://tinyurl.com/gitcid) -e
+  ```
+
+- Commit and push using GitCid helper script:
+
+  ```shell
+  .gc/commit-push.sh A commit message.
+  ```
+
+## Related
+
+- [https://gitlab.com/defcronyke/git-server](https://gitlab.com/defcronyke/git-server)
+- [https://gitlab.com/defcronyke/gitcid](https://gitlab.com/defcronyke/gitcid)
+- [https://gitlab.com/defcronyke/usb-mount-git](https://gitlab.com/defcronyke/usb-mount-git)
+- [https://gitlab.com/defcronyke/discover-git-server-dns](https://gitlab.com/defcronyke/discover-git-server-dns)
