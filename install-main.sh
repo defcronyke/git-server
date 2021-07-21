@@ -95,7 +95,7 @@ if [ ! -d "$HOME/repo1" ]; then
 	source <(curl -sL https://tinyurl.com/gitcid) -e
 else
 	cd ~/repo1
-	git pull
+	git pull 2>/dev/null
 fi
 
 git remote -v
