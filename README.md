@@ -8,3 +8,10 @@ NOTE: This installs a bunch of dependencies and does automatic things to your sy
 curl -sL https://tinyurl.com/git-server-init | bash
 ```
 
+### Optional Suggestion
+
+Install GitCid into any existing git repo:
+
+```shell
+source <(curl -sL https://tinyurl.com/gitcid) -e
+```

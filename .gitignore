@@ -1,4 +1,5 @@
 usb-mount-git/
-usb-mount/
+discover-git-server-dns/
 gitcid/
 
+*.code-workspace
