@@ -20,7 +20,7 @@ git_server_init_routine() {
 		return $res
 	fi
 
-	curl -sL https://gitlab.com/defcronyke/git-server/-/archive/master/git-server-master.tar.gz | tar zxvf - && mv git-server-master git-server && cd git-server && ./install.sh
+	curl -sL https://gitlab.com/defcronyke/git-server/-/archive/master/git-server-master.tar.gz | tar zxvf - && cd git-server-master && ./install.sh
 }
 
 git_server_init_routine

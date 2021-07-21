@@ -128,6 +128,11 @@ git clone https://gitlab.com/defcronyke/discover-git-server-dns.git
 
 cd ~
 
+# Remove bootstrap dir "git-server-master" if present.
+if [ -d "git-server-master" ]; then
+  rm -rf git-server-master
+fi
+
 echo
 echo "git server utilities installed"
 echo
