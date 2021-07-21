@@ -8,16 +8,10 @@ git_server_init_routine() {
 		echo "  cd git-server; ./install.sh; cd .."
 		echo
 
-    current_dir="$PWD"
-    cd git-server 2>/dev/null
-
+    cd git-server && \
     ./install.sh
 
-    res=$?
-
-    cd "$current_dir"
-		
-		return $res
+    return $?
 	fi
 
 	curl -sL https://gitlab.com/defcronyke/git-server/-/archive/master/git-server-master.tar.gz | tar zxvf - && cd git-server-master && ./install.sh
