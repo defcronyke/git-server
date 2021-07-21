@@ -112,13 +112,13 @@ git instaweb 2>/dev/null
 #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
 if [ $? -ne 0 ]; then
-        echo
-        echo "Restarting git instaweb because it was already running..."
-        echo
-        git instaweb --stop
-        sudo killall lighttpd
+  echo
+  echo "Restarting git instaweb because it was already running..."
+  echo
+  git instaweb --stop
+  sudo killall lighttpd
 	git instaweb
-        #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
+  #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
 fi
 
 cd ~/git-server
