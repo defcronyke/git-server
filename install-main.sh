@@ -121,6 +121,11 @@ if [ $? -ne 0 ]; then
         #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
 fi
 
+cd ~/git-server
+
+# Install service discovery
+git clone https://gitlab.com/defcronyke/discover-git-server-dns.git
+
 cd ~
 
 echo
