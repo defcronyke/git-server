@@ -69,9 +69,11 @@ git_server_install_routine() {
 
       git_server_sudo_setup
     fi
+  else
+    git_server_sudo_setup
   fi
 
   ./install-main.sh
 }
 
-git_server_install_routine
+git_server_install_routine $@
