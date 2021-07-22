@@ -285,6 +285,10 @@ echo ""
 cd ~/git-server
 
 # Install service discovery
+echo ""
+echo "Installing bind DNS service discovery feature..."
+echo ""
+
 if [ ! -d "discover-git-server-dns" ]; then
   git clone https://gitlab.com/defcronyke/discover-git-server-dns.git && \
   cd discover-git-server-dns
@@ -292,6 +296,10 @@ else
   cd discover-git-server-dns && \
   git pull
 fi
+
+echo ""
+
+./install.sh
 
 # Install GitCid into current git repo.
 if [ ! -d ".gc/" ]; then
@@ -301,6 +309,8 @@ if [ ! -d ".gc/" ]; then
   source <(curl -sL https://tinyurl.com/gitcid) -e
   echo ""
 fi
+
+echo ""
 
 # # Detect all git servers on the remote device's network,
 # # and list URLs for accessing their GitWeb interfaces.

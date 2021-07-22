@@ -4,5 +4,4 @@ sudo apt-get update && \
 sudo apt-get upgrade -y && \
 sudo apt-get dist-upgrade -y && \
 sudo apt-get autoremove -y && \
-sudo apt-get install -y git ufw neovim pmount lighttpd libcgi-pm-perl gamin nmap bind9
-
+sudo apt-get install -y git ufw neovim pmount lighttpd libcgi-pm-perl gamin
