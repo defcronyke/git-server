@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git_server_install_routine() {
+git_server_sudo_setup() {
   # ----------
   # Allow sudo without password for the current user, for convenience.
   #
@@ -17,7 +17,9 @@ git_server_install_routine() {
     sudo chmod 440 /etc/sudoers.d/010_$USER-nopasswd
   fi
   # ----------
+}
 
+git_server_install_routine() {
   # ----------
   # Do some minimal git config setup to make some annoying yellow warning text stop 
   # showing on newer versions of git.
@@ -39,7 +41,10 @@ git_server_install_routine() {
     cd ~
 
     if [ ! -d "git-server" ]; then
-      git clone https://gitlab.com/defcronyke/git-server.git 2>/dev/null || \
+      git clone https://gitlab.com/defcronyke/git-server.git 2>/dev/null
+
+      git_server_sudo_setup
+
       sudo apt-get update && \
       sudo apt-get install -y git && \
       git clone https://gitlab.com/defcronyke/git-server.git 2>/dev/null
@@ -47,6 +52,8 @@ git_server_install_routine() {
     else
       cd git-server && \
       git pull
+
+      git_server_sudo_setup
     fi
   fi
 
