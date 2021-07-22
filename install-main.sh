@@ -34,7 +34,7 @@ git_server_install_main_routine() {
   #   sudo ufw delete allow 22/tcp; sudo ufw delete allow 53; sudo ufw delete allow 1234/tcp
   #
 
-  sudo ufw status | grep "22/tcp" | grep "ALLOW"
+  sudo ufw status | grep "22/tcp" | grep "ALLOW" >/dev/null
   if [ $? -ne 0 ]; then
     echo ""
     echo "info: Adding permissive ufw firewall rule: ufw allow 22/tcp"
@@ -43,7 +43,7 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  sudo ufw status | grep "53" | grep "ALLOW"
+  sudo ufw status | grep "53" | grep "ALLOW" >/dev/null
   if [ $? -ne 0 ]; then
     echo ""
     echo "info: Adding permissive ufw firewall rule: ufw allow 53"
@@ -52,7 +52,7 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  sudo ufw status | grep "1234/tcp" | grep "ALLOW"
+  sudo ufw status | grep "1234/tcp" | grep "ALLOW" >/dev/null
   if [ $? -ne 0 ]; then
     echo ""
     echo "info: Adding permissive ufw firewall rule: ufw allow 1234/tcp"
@@ -68,13 +68,13 @@ git_server_install_main_routine() {
 
   GIT_SERVER_HAS_STRICT_UFW_RULES=()
 
-  sudo ufw status | grep "22/tcp" | grep "ALLOW" | grep -v "Anywhere"
+  sudo ufw status | grep "22/tcp" | grep "ALLOW" | grep -v "Anywhere" >/dev/null
   GIT_SERVER_HAS_STRICT_UFW_RULES+=($?)
 
-  sudo ufw status | grep "53" | grep "ALLOW" | grep -v "Anywhere"
+  sudo ufw status | grep "53" | grep "ALLOW" | grep -v "Anywhere" >/dev/null
   GIT_SERVER_HAS_STRICT_UFW_RULES+=($?)
 
-  sudo ufw status | grep "1234/tcp" | grep "ALLOW" | grep -v "Anywhere"
+  sudo ufw status | grep "1234/tcp" | grep "ALLOW" | grep -v "Anywhere" >/dev/null
   GIT_SERVER_HAS_STRICT_UFW_RULES+=($?)
 
   GIT_SERVER_HAS_STRICT_UFW_RULES_RECOMMEND=0
@@ -89,13 +89,13 @@ git_server_install_main_routine() {
   # Detect default overly-permissive ufw firewall rules.
   GIT_SERVER_HAS_WEAK_UFW_RULES=()
 
-  sudo ufw status | grep "22/tcp" | grep "ALLOW" | grep "Anywhere"
+  sudo ufw status | grep "22/tcp" | grep "ALLOW" | grep "Anywhere" >/dev/null
   GIT_SERVER_HAS_WEAK_UFW_RULES+=($?)
 
-  sudo ufw status | grep "53" | grep "ALLOW" | grep "Anywhere"
+  sudo ufw status | grep "53" | grep "ALLOW" | grep "Anywhere" >/dev/null
   GIT_SERVER_HAS_WEAK_UFW_RULES+=($?)
 
-  sudo ufw status | grep "1234/tcp" | grep "ALLOW" | grep "Anywhere"
+  sudo ufw status | grep "1234/tcp" | grep "ALLOW" | grep "Anywhere" >/dev/null
   GIT_SERVER_HAS_WEAK_UFW_RULES+=($?)
 
   GIT_SERVER_HAS_WEAK_UFW_RULES_RECOMMEND=1
