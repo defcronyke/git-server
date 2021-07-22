@@ -332,30 +332,20 @@ git_server_install_main_routine() {
   # Start git instaweb: http://localhost:1234
   echo ""
   echo "Starting git instaweb..."
-  echo ""
   cd ~/git
 
   sudo chown -R $USER: /home/$USER/git/.git/gitweb
   sudo chown $USER: /home/$USER/git/.git/pid
 
-  echo ""
   git instaweb --restart 2>/dev/null
   #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
   if [ $? -ne 0 ]; then
-    echo ""
     echo "Restarting git instaweb because it was already running..."
-    echo ""
     sudo killall lighttpd
     git instaweb --restart
   fi
-
-  # echo ""
-  # echo "Waiting a bit so GitWeb can have time to start..."
-  # echo ""
-  # sleep 5
-
-  echo ""
+  
   cd ~/git-server
 
   # Install service discovery
@@ -381,7 +371,6 @@ git_server_install_main_routine() {
     echo "Installing GitCid into git repo..."
     echo ""
     source <(curl -sL https://tinyurl.com/gitcid) -e >/dev/null
-    echo ""
   fi
 
   echo ""
@@ -396,13 +385,11 @@ git_server_install_main_routine() {
 
   # Remove bootstrap dir "git-server-master" if present.
   if [ -d "git-server-master" ]; then
-    echo ""
     echo "Removing bootstrap dir: $HOME/git-server-master"
     rm -rf git-server-master
     echo ""
   fi
 
-  echo ""
   echo "git server utilities installed"
   echo ""
   echo "done"
