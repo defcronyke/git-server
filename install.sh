@@ -53,4 +53,5 @@ git_server_install_routine() {
   ./install-main.sh
 }
 
-git_server_install_routine
+git_server_install_routine; \
+exit $?

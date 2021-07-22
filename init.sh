@@ -36,4 +36,5 @@ git_server_init_routine() {
 	curl -sL https://gitlab.com/defcronyke/git-server/-/archive/master/git-server-master.tar.gz | tar zxvf - && cd git-server-master && ./install.sh
 }
 
-git_server_init_routine
+git_server_init_routine; \
+exit $?
