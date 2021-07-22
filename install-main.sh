@@ -339,21 +339,15 @@ git_server_install_main_routine() {
   sudo chown $USER: /home/pi/git/.git/pid
 
   echo ""
-  git instaweb 2>/dev/null
+  git instaweb --restart 2>/dev/null
   #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
   if [ $? -ne 0 ]; then
     echo ""
     echo "Restarting git instaweb because it was already running..."
     echo ""
-    
+    sudo killall lighttpd
     git instaweb --restart
-    if [ $? -ne 0 ]; then
-      git instaweb --stop
-      sudo killall lighttpd
-      git instaweb
-      # #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
-    fi
   fi
 
   # echo ""
