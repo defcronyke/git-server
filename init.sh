@@ -7,6 +7,19 @@
 git_server_init_routine() {
   cd ~
 
+  # ----------
+  # Do some minimal git config setup to make some annoying yellow warning text stop 
+  # showing on newer versions of git.
+
+  # When doing "git pull", merge by default instead of rebase.
+  git config --global pull.rebase || \
+  git config --global pull.rebase false
+
+  # When doing "git init", use "master" for the default branch name.
+  git config --global init.defaultBranch || \
+  git config --global init.defaultBranch master
+  # ----------
+
 	if [ -d "git-server" ]; then
 		echo
 		echo "This device has already been initialized. (Re-)Installing..."
