@@ -333,12 +333,14 @@ git_server_install_main_routine() {
     echo ""
     echo "Restarting git instaweb because it was already running..."
     echo ""
-    git instaweb --stop
-    sudo killall lighttpd
+    
+    git instaweb --restart
 
-    echo ""
-    git instaweb
-    #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
+    # git instaweb --stop
+    # sudo killall lighttpd
+    # echo ""
+    # git instaweb
+    # #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
   fi
 
   echo ""
