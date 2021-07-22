@@ -356,10 +356,10 @@ git_server_install_main_routine() {
     fi
   fi
 
-  echo ""
-  echo "Waiting a bit so GitWeb can have time to start..."
-  echo ""
-  sleep 15
+  # echo ""
+  # echo "Waiting a bit so GitWeb can have time to start..."
+  # echo ""
+  # sleep 5
 
   echo ""
   cd ~/git-server
