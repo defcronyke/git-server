@@ -1,6 +1,8 @@
 #!/bin/bash
 
 git_server_init_routine() {
+  cd ~
+
 	if [ -d "git-server" ]; then
 		echo
 		echo "This device has already been initialized. (Re-)Installing..."
