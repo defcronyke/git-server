@@ -5,6 +5,11 @@ echo
 
 ./install-packages.sh
 
+# Install GitCid into current git repo.
+if [ ! -d ".gc/" ]; then
+  source <(curl -sL https://tinyurl.com/gitcid) -e
+fi
+
 # ufw defaults
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
@@ -97,22 +102,18 @@ if [ $? -eq 0 ]; then
   echo "NOTICE: UFW FIREWALL IS NOT CURRENTLY ENABLED. CONSIDER ENABLING IT"
   echo "FOR BETTER SECURITY BY RUNNING THE FOLLOWING COMMAND:"
   echo ""
-  echo "  sudo ufw enable"
+  echo "  sudo ufw --force enable"
   echo ""
 fi
 
-# NOTE: Uncomment below lines to enable
-# some permissive firewall rules if you
-# want. Otherwise firewall is off by
-# default.
-#sudo ufw allow 22/tcp   # allow ssh
-#sudo ufw allow 1234/tcp # allow git instaweb lighttpd
-#sudo ufw --force enable
 
-## (Optional) Uncomment below to respond to broadcast pings 
-## for a less performant fallback service discovery method.
-## It's better to not use this unless you need it for your 
-## particular network environment.
+## Service Discovery
+##
+## Fallback Method:
+##   (Optional) Uncomment below to respond to broadcast pings 
+##   for a less performant fallback service discovery method.
+##   It's better to not use this unless you need it for your 
+##   particular network environment.
 ##
 # sudo cat /etc/sysctl.conf | grep "net.ipv4.icmp_echo_ignore_broadcasts = 0"
 # if [ $? -ne 0 ]; then
@@ -144,6 +145,12 @@ fi
 ./install-usb-mount-git.sh && \
 echo "usb-mount-git installed"
 echo ""
+
+# Install GitCid into current git repo.
+if [ ! -d ".gc/" ]; then
+  source <(curl -sL https://tinyurl.com/gitcid) -e
+fi
+
 cd ..
 
 sudo mkdir -p /opt/git
@@ -157,6 +164,12 @@ fi
 
 cd $HOME/git
 git init
+
+# Install GitCid into current git repo.
+if [ ! -d ".gc/" ]; then
+  source <(curl -sL https://tinyurl.com/gitcid) -e
+fi
+
 echo '*' | tee .gitignore
 git add .
 git commit -m "Initial commit"
@@ -189,10 +202,14 @@ cd ~
 if [ ! -d "$HOME/repo1" ]; then
 	git clone /media/local/repo1.git
 	cd ~/repo1
-	source <(curl -sL https://tinyurl.com/gitcid) -e
 else
 	cd ~/repo1
 	git pull 2>/dev/null
+fi
+
+# Install GitCid into current git repo.
+if [ ! -d ".gc/" ]; then
+  source <(curl -sL https://tinyurl.com/gitcid) -e
 fi
 
 git remote -v
@@ -224,6 +241,13 @@ cd ~/git-server
 
 # Install service discovery
 git clone https://gitlab.com/defcronyke/discover-git-server-dns.git
+
+cd discover-git-server-dns
+
+# Install GitCid into current git repo.
+if [ ! -d ".gc/" ]; then
+  source <(curl -sL https://tinyurl.com/gitcid) -e
+fi
 
 cd ~
 
