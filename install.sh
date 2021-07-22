@@ -8,12 +8,12 @@ git_server_install_routine() {
   # lines below, and then you'll need to type the sudo password sometimes
   # when maybe it would be better to not have to do that, so things
   # can happen more automatically.
-  sudo cat /etc/sudoers.d/*-nopasswd 2>/dev/null | grep 'ALL=(ALL) NOPASSWD: ALL'
+  sudo cat /etc/sudoers.d/*-nopasswd 2>/dev/null | grep 'ALL=(ALL) NOPASSWD: ALL' >/dev/null
   if [ $? -ne 0 ]; then
     sudo mkdir /etc/sudoers.d/ 2>/dev/null && \
     sudo chmod 750 /etc/sudoers.d/
     
-    echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/010_$USER-nopasswd && \
+    echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/010_$USER-nopasswd >/dev/null 2>&1 && \
     sudo chmod 440 /etc/sudoers.d/010_$USER-nopasswd
   fi
   # ----------
