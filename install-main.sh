@@ -260,9 +260,13 @@ echo ""
 cd ~/git-server
 
 # Install service discovery
-git clone https://gitlab.com/defcronyke/discover-git-server-dns.git
-
-cd discover-git-server-dns
+if [ ! -d "discover-git-server-dns" ]; then
+  git clone https://gitlab.com/defcronyke/discover-git-server-dns.git && \
+  cd discover-git-server-dns
+else
+  cd discover-git-server-dns && \
+  git pull
+fi
 
 # Install GitCid into current git repo.
 if [ ! -d ".gc/" ]; then
