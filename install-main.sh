@@ -16,9 +16,12 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  # ufw defaults
+  # Set ufw defaults
+  echo ""
+  echo "Setting ufw defaults..."
   sudo ufw default deny incoming
   sudo ufw default allow outgoing
+  echo ""
 
   # Add some very permissive ufw rules if needed.
   #
@@ -127,7 +130,7 @@ git_server_install_main_routine() {
   sudo ufw status | grep "Status: inactive"
   if [ $? -eq 0 ]; then
     echo ""
-    echo "info: enabling ufw firewall"
+    echo "info: Enabling ufw firewall..."
     sudo ufw --force enable
     echo ""
   fi
@@ -194,17 +197,26 @@ git_server_install_main_routine() {
 
   cd ..
 
+  echo ""
+  echo "Making public git server directory if it doesn't exist yet: /opt/git"
   sudo mkdir -p /opt/git
   sudo chown $USER: /opt/git
   chmod 770 /opt/git
+  echo ""
 
   # Add symlink: ~/git -> /opt/git
   if [ ! -d "$HOME/git" ]; then
+    echo "Adding symlink: $HOME/git -> /opt/git"
     ln -s /opt/git $HOME/git 2>/dev/null || true
+    echo ""
   fi
 
+  echo "Adding root git repo for use by GitWeb: $HOME/git"
+  echo ""
   cd $HOME/git
   git init
+
+  echo ""
 
   # Install GitCid into current git repo.
   if [ ! -d ".gc/" ]; then
@@ -220,12 +232,18 @@ git_server_install_main_routine() {
   git commit -m "Initial commit"
   cd "$current_dir"
 
+  echo ""
+
+  echo "Adding local disk git repo folder: /media/local"
   sudo mkdir -p /media/local
   sudo chown $USER: /media/local
   chmod 770 /media/local
+  echo ""
 
   if [ ! -d "$HOME/git/local" ]; then
+    echo "Adding symlink: $HOME/git/local -> /media/local"
     ln -s /media/local $HOME/git/local 2>/dev/null || true
+    echo ""
   fi
 
   # Install GitCid CI/CD
@@ -236,24 +254,38 @@ git_server_install_main_routine() {
     source <(curl -sL https://tinyurl.com/gitcid)
     echo ""
   else
+    echo ""
+    echo "Updating gitcid if any updates are available..."
+    echo ""
     cd gitcid
     git pull
+    echo ""
   fi
 
   # Make a new GitCid git remote (a.k.a. "bare" git repo)
   if [ ! -d "/media/local/repo1.git" ]; then
+    echo ""
+    echo "Making an initial git remote repo for testing purposes: /media/local/repo1.git"
+    echo ""
     .gc/new-remote.sh /media/local/repo1.git
+    echo ""
   fi
 
-  echo
+  echo ""
   cd ~
 
   if [ ! -d "$HOME/repo1" ]; then
+    echo "Cloning test repo: /media/local/repo1.git -> $HOME/repo1"
+    echo ""
     git clone /media/local/repo1.git
     cd ~/repo1
+    echo ""
   else
+    echo "Updating test repo if any updates are available: $HOME/repo1"
+    echo ""
     cd ~/repo1
     git pull 2>/dev/null
+    echo ""
   fi
 
   # Install GitCid into current git repo.
@@ -265,11 +297,16 @@ git_server_install_main_routine() {
     echo ""
   fi
 
+  echo ""
+  echo "Test repo remotes: $HOME/repo1"
+  echo ""
   git remote -v
+  echo ""
 
   # Start git instaweb: http://localhost:1234
-  echo
+  echo ""
   echo "Starting git instaweb..."
+  echo ""
   cd ~/git
 
   sudo chown -R $USER: /home/pi/git/.git/gitweb
@@ -280,9 +317,9 @@ git_server_install_main_routine() {
   #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
   if [ $? -ne 0 ]; then
-    echo
+    echo ""
     echo "Restarting git instaweb because it was already running..."
-    echo
+    echo ""
     git instaweb --stop
     sudo killall lighttpd
 
@@ -292,7 +329,6 @@ git_server_install_main_routine() {
   fi
 
   echo ""
-
   cd ~/git-server
 
   # Install service discovery
@@ -333,13 +369,26 @@ git_server_install_main_routine() {
 
   # Remove bootstrap dir "git-server-master" if present.
   if [ -d "git-server-master" ]; then
+    echo ""
+    echo "Removing bootstrap dir: $HOME/git-server-master"
     rm -rf git-server-master
+    echo ""
   fi
 
   echo ""
   echo "git server utilities installed"
   echo ""
   echo "done"
+  echo ""
+
+  echo ""
+  echo "----------"
+  echo ""
+  echo "See here for usage instructions:"
+  echo ""
+  echo "  https://gitlab.com/defcronyke/gitcid"
+  echo ""
+  echo "----------"
   echo ""
 }
 
