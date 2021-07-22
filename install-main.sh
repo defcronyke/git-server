@@ -20,6 +20,19 @@ git_server_install_main_routine() {
 
   ./install-packages.sh
 
+  # ----------
+  # Do some minimal git config setup to make some annoying yellow warning text stop 
+  # showing on newer versions of git.
+
+  # When doing "git pull", merge by default instead of rebase.
+  git config --global pull.rebase >/dev/null 2>&1 || \
+  git config --global pull.rebase false >/dev/null 2>&1
+
+  # When doing "git init", use "master" for the default branch name.
+  git config --global init.defaultBranch >/dev/null 2>&1 || \
+  git config --global init.defaultBranch master >/dev/null 2>&1
+  # ----------
+
   # Install GitCid into current git repo.
   if [ ! -d ".gc/" ]; then
     echo ""

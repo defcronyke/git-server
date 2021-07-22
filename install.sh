@@ -1,6 +1,19 @@
 #!/bin/bash
 
 git_server_install_routine() {
+  # ----------
+  # Do some minimal git config setup to make some annoying yellow warning text stop 
+  # showing on newer versions of git.
+
+  # When doing "git pull", merge by default instead of rebase.
+  git config --global pull.rebase >/dev/null 2>&1 || \
+  git config --global pull.rebase false >/dev/null 2>&1
+
+  # When doing "git init", use "master" for the default branch name.
+  git config --global init.defaultBranch >/dev/null 2>&1 || \
+  git config --global init.defaultBranch master >/dev/null 2>&1
+  # ----------
+
   git pull 2>/dev/null
   if [ $? -ne 0 ]; then
     echo "" && \
