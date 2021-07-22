@@ -2,6 +2,23 @@
 
 git_server_install_routine() {
   # ----------
+  # Allow sudo without password for the current user, for convenience.
+  #
+  # NOTE: If you don't want this convenience, you can comment out the
+  # lines below, and then you'll need to type the sudo password sometimes
+  # when maybe it would be better to not have to do that, so things
+  # can happen more automatically.
+  sudo cat /etc/sudoers.d/*-nopasswd 2>/dev/null | grep 'ALL=(ALL) NOPASSWD: ALL'
+  if [ $? -ne 0 ]; then
+    sudo mkdir /etc/sudoers.d/ 2>/dev/null && \
+    sudo chmod 750 /etc/sudoers.d/
+    
+    echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/010_$USER-nopasswd && \
+    sudo chmod 440 /etc/sudoers.d/010_$USER-nopasswd
+  fi
+  # ----------
+
+  # ----------
   # Do some minimal git config setup to make some annoying yellow warning text stop 
   # showing on newer versions of git.
 
