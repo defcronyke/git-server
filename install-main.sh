@@ -304,6 +304,7 @@ fi
 
 # Detect all git servers on the remote device's network,
 # and list URLs for accessing their GitWeb interfaces.
+echo ""
 ./git-web.sh
 
 cd ~
@@ -313,7 +314,8 @@ if [ -d "git-server-master" ]; then
   rm -rf git-server-master
 fi
 
-echo
+echo ""
 echo "git server utilities installed"
-echo
+echo ""
 echo "done"
+echo ""
