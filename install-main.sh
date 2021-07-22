@@ -9,6 +9,91 @@ echo
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
+# Add some very permissive ufw rules if needed.
+#
+# !! IMPORTANT !!: You should consider removing these 
+# rule later, after adding similar more restrictive ones 
+# for better security. To remove them, make sure you
+# added similar ones first so you don't lose access,
+# then run the following line of commands:
+# 
+#   sudo ufw delete allow 22/tcp; sudo ufw delete allow 53; sudo ufw delete allow 1234/tcp
+#
+
+sudo ufw status | grep "22/tcp" | grep "ALLOW"
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "info: Adding permissive ufw firewall rule: ufw allow 22/tcp"
+  echo "info: ssh for remote access"
+  sudo ufw allow 22/tcp
+  echo ""
+fi
+
+sudo ufw status | grep "53" | grep "ALLOW"
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "info: Adding permissive ufw firewall rule: ufw allow 53"
+  echo "info: dns for service discovery"
+  sudo ufw allow 53
+  echo ""
+fi
+
+sudo ufw status | grep "1234/tcp" | grep "ALLOW"
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "info: Adding permissive ufw firewall rule: ufw allow 1234/tcp"
+  echo "info: http web server for GitWeb"
+  sudo ufw allow 1234/tcp
+  echo ""
+fi
+
+
+# Check for more restrictive ufw firewall rules so that 
+# we can recommend removing the overly-permissive ones,
+# if we find all the ones that are needed.
+
+GIT_SERVER_HAS_STRICT_UFW_RULES=()
+
+sudo ufw status | grep "22/tcp" | grep "ALLOW" | grep -v "Anywhere"
+GIT_SERVER_HAS_STRICT_UFW_RULES+=($?)
+
+sudo ufw status | grep "53" | grep "ALLOW" | grep -v "Anywhere"
+GIT_SERVER_HAS_STRICT_UFW_RULES+=($?)
+
+sudo ufw status | grep "1234/tcp" | grep "ALLOW" | grep -v "Anywhere"
+GIT_SERVER_HAS_STRICT_UFW_RULES+=($?)
+
+GIT_SERVER_HAS_STRICT_UFW_RULES_RECOMMEND=0
+
+for i in ${GIT_SERVER_HAS_STRICT_UFW_RULES[@]}; do
+  if [ $i -ne 0 ]; then
+    GIT_SERVER_HAS_STRICT_UFW_RULES_RECOMMEND=1
+    break
+  fi
+done
+
+if [ $GIT_SERVER_HAS_STRICT_UFW_RULES_RECOMMEND -eq 0 ]; then
+  echo ""
+  echo "NOTICE: COMPATIBLE UFW FIREWALL RULES WERE DETECTED ON YOUR SYSTEM."
+  echo "NOTICE: CONSIDER RUNNING THE FOLLOWING LINE OF COMMANDS TO REMOVE THE DEFAULT OVERLY-PERMISSIVE UFW RULES IF YOU PREFER BETTER SECURITY:"
+  echo ""
+  echo "  sudo ufw delete allow 22/tcp; sudo ufw delete allow 53; sudo ufw delete allow 1234/tcp"
+  echo ""
+  echo "WARNING: MAKE SURE YOU'LL STILL BE ABLE TO ACCESS THIS DEVICE FROM YOUR REQUIRED LOCATIONS BEFORE RUNNING THE ABOVE COMMANDS."
+  echo "WARNING: IF YOU AREN'T SURE, TEST IT FIRST OR DON'T RUN THE ABOVE COMMANDS, OTHERWISE YOU COULD LOSE THE ABILITY TO ACCESS YOUR DEVICE REMOTELY. YOU HAVE BEEN WARNED!"
+  echo ""
+fi
+
+# Recommend enabling ufw if not enabled.
+sudo ufw status | grep "Status: inactive"
+if [ $? -eq 0 ]; then
+  echo ""
+  echo "NOTICE: UFW FIREWALL IS NOT CURRENTLY ENABLED. CONSIDER ENABLING IT FOR BETTER SECURITY BY RUNNING THE FOLLOWING COMMAND:"
+  echo ""
+  echo "  sudo ufw enable"
+  echo ""
+fi
+
 # NOTE: Uncomment below lines to enable
 # some permissive firewall rules if you
 # want. Otherwise firewall is off by
@@ -17,22 +102,26 @@ sudo ufw default allow outgoing
 #sudo ufw allow 1234/tcp # allow git instaweb lighttpd
 #sudo ufw --force enable
 
-# Respond to broadcast pings for current DNS discovery protocol (subject to change)
-sudo cat /etc/sysctl.conf | grep "net.ipv4.icmp_echo_ignore_broadcasts = 0"
-if [ $? -ne 0 ]; then
-	echo
-	echo "Enabling broadcast ping response for DNS discovery..."
-	echo "net.ipv4.icmp_echo_ignore_broadcasts = 0" | sudo tee -a /etc/sysctl.conf
-	sudo sysctl --system
-	echo "broadcast ping response enabled"
-	echo
-else
-	echo
-	echo "info: broadcast ping response is already enabled, not enabling it again"
-	echo
-fi
+## (Optional) Uncomment below to respond to broadcast pings 
+## for a less performant fallback service discovery method.
+## It's better to not use this unless you need it for your 
+## particular network environment.
+##
+# sudo cat /etc/sysctl.conf | grep "net.ipv4.icmp_echo_ignore_broadcasts = 0"
+# if [ $? -ne 0 ]; then
+# 	echo
+# 	echo "Enabling broadcast ping response for DNS discovery..."
+# 	echo "net.ipv4.icmp_echo_ignore_broadcasts = 0" | sudo tee -a /etc/sysctl.conf
+# 	sudo sysctl --system
+# 	echo "broadcast ping response enabled"
+# 	echo
+# else
+# 	echo
+# 	echo "info: broadcast ping response is already enabled, not enabling it again"
+# 	echo
+# fi
 
-echo
+echo ""
 echo "Installing usb-mount-git..."
 
 current_dir="$PWD"
@@ -47,6 +136,7 @@ fi
 
 ./install-usb-mount-git.sh && \
 echo "usb-mount-git installed"
+echo ""
 cd ..
 
 sudo mkdir -p /opt/git
