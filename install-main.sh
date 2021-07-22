@@ -81,9 +81,31 @@ for i in ${GIT_SERVER_HAS_STRICT_UFW_RULES[@]}; do
   fi
 done
 
-if [ $GIT_SERVER_HAS_STRICT_UFW_RULES_RECOMMEND -eq 0 ]; then
+# Detect default overly-permissive ufw firewall rules.
+GIT_SERVER_HAS_WEAK_UFW_RULES=()
+
+sudo ufw status | grep "22/tcp" | grep "ALLOW" | grep "Anywhere"
+GIT_SERVER_HAS_WEAK_UFW_RULES+=($?)
+
+sudo ufw status | grep "53" | grep "ALLOW" | grep "Anywhere"
+GIT_SERVER_HAS_WEAK_UFW_RULES+=($?)
+
+sudo ufw status | grep "1234/tcp" | grep "ALLOW" | grep "Anywhere"
+GIT_SERVER_HAS_WEAK_UFW_RULES+=($?)
+
+GIT_SERVER_HAS_WEAK_UFW_RULES_RECOMMEND=1
+
+for i in ${GIT_SERVER_HAS_WEAK_UFW_RULES[@]}; do
+  if [ $i -eq 0 ]; then
+    GIT_SERVER_HAS_STRICT_UFW_WEAK_RECOMMEND=0
+    break
+  fi
+done
+
+if [ $GIT_SERVER_HAS_STRICT_UFW_RULES_RECOMMEND -eq 0 ] && [ $GIT_SERVER_HAS_WEAK_UFW_RULES_RECOMMEND -eq 0 ]; then
   echo ""
   echo "NOTICE: COMPATIBLE UFW FIREWALL RULES WERE DETECTED ON YOUR SYSTEM."
+  echo ""
   echo "NOTICE: CONSIDER RUNNING THE FOLLOWING LINE OF COMMANDS TO REMOVE THE "
   echo "DEFAULT OVERLY-PERMISSIVE UFW RULES IF YOU PREFER BETTER SECURITY:"
   echo ""
@@ -242,6 +264,7 @@ cd ~/git
 sudo chown -R $USER: /home/pi/git/.git/gitweb
 sudo chown $USER: /home/pi/git/.git/pid
 
+echo ""
 git instaweb 2>/dev/null
 #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
 
@@ -251,6 +274,8 @@ if [ $? -ne 0 ]; then
   echo
   git instaweb --stop
   sudo killall lighttpd
+
+  echo ""
 	git instaweb
   #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
 fi
@@ -276,6 +301,10 @@ if [ ! -d ".gc/" ]; then
   source <(curl -sL https://tinyurl.com/gitcid) -e
   echo ""
 fi
+
+# Detect all git servers on the remote device's network,
+# and list URLs for accessing their GitWeb interfaces.
+./git-web.sh
 
 cd ~
 
