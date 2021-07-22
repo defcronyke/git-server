@@ -1,9 +1,22 @@
 #!/bin/bash
 
 git_server_install_main_routine() {
-  echo
+  echo ""
   echo "Installing git server utilities..."
-  echo
+  echo ""
+
+  if [ `hostname` == "git" ]; then
+    echo ""
+    echo "error: Sorry, this isn't going to work if your device's hostname is \"git\"."
+    echo ""
+    echo "Please change it to any other hostname. Suggested alternatives are something like:"
+    echo ""
+    echo "  git1, git2, git3, ..."
+    echo ""
+    echo "Congratulations, you managed to hit a rare and unusual unsupported setting!"
+    echo ""
+    return 1
+  fi
 
   ./install-packages.sh
 
