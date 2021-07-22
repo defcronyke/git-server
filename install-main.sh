@@ -218,6 +218,8 @@ if [ $? -ne 0 ]; then
   #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
 fi
 
+echo ""
+
 cd ~/git-server
 
 # Install service discovery
