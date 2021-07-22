@@ -1,4 +1,8 @@
 #!/bin/bash
+# To use this, run the following command:
+#
+#   curl -sL https://tinyurl.com/git-server-init | bash
+#
 
 git_server_init_routine() {
   cd ~
