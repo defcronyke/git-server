@@ -302,10 +302,10 @@ if [ ! -d ".gc/" ]; then
   echo ""
 fi
 
-# Detect all git servers on the remote device's network,
-# and list URLs for accessing their GitWeb interfaces.
-echo ""
-./git-web.sh
+# # Detect all git servers on the remote device's network,
+# # and list URLs for accessing their GitWeb interfaces.
+# echo ""
+# ./git-web.sh
 
 cd ~
 
