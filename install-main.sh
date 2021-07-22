@@ -335,8 +335,8 @@ git_server_install_main_routine() {
   echo ""
   cd ~/git
 
-  sudo chown -R $USER: /home/pi/git/.git/gitweb
-  sudo chown $USER: /home/pi/git/.git/pid
+  sudo chown -R $USER: /home/$USER/git/.git/gitweb
+  sudo chown $USER: /home/$USER/git/.git/pid
 
   echo ""
   git instaweb --restart 2>/dev/null
