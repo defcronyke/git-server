@@ -348,13 +348,18 @@ git_server_install_main_routine() {
     echo ""
     
     git instaweb --restart
-
-    # git instaweb --stop
-    # sudo killall lighttpd
-    # echo ""
-    # git instaweb
-    # #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
+    if [ $? -ne 0 ]; then
+      git instaweb --stop
+      sudo killall lighttpd
+      git instaweb
+      # #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb
+    fi
   fi
+
+  echo ""
+  echo "Waiting a bit so GitWeb can have time to start..."
+  echo ""
+  sleep 15
 
   echo ""
   cd ~/git-server
