@@ -7,7 +7,11 @@ echo
 
 # Install GitCid into current git repo.
 if [ ! -d ".gc/" ]; then
+  echo ""
+  echo "Installing GitCid into git repo..."
+  echo ""
   source <(curl -sL https://tinyurl.com/gitcid) -e
+  echo ""
 fi
 
 # ufw defaults
@@ -148,7 +152,11 @@ echo ""
 
 # Install GitCid into current git repo.
 if [ ! -d ".gc/" ]; then
+  echo ""
+  echo "Installing GitCid into git repo..."
+  echo ""
   source <(curl -sL https://tinyurl.com/gitcid) -e
+  echo ""
 fi
 
 cd ..
@@ -167,7 +175,11 @@ git init
 
 # Install GitCid into current git repo.
 if [ ! -d ".gc/" ]; then
+  echo ""
+  echo "Installing GitCid into git repo..."
+  echo ""
   source <(curl -sL https://tinyurl.com/gitcid) -e
+  echo ""
 fi
 
 echo '*' | tee .gitignore
@@ -185,7 +197,11 @@ fi
 
 # Install GitCid CI/CD
 if [ ! -d "gitcid" ]; then
-	source <(curl -sL https://tinyurl.com/gitcid)
+	echo ""
+  echo "Installing GitCid..."
+  echo ""
+  source <(curl -sL https://tinyurl.com/gitcid)
+  echo ""
 else
 	cd gitcid
 	git pull
@@ -209,7 +225,11 @@ fi
 
 # Install GitCid into current git repo.
 if [ ! -d ".gc/" ]; then
+  echo ""
+  echo "Installing GitCid into git repo..."
+  echo ""
   source <(curl -sL https://tinyurl.com/gitcid) -e
+  echo ""
 fi
 
 git remote -v
@@ -246,7 +266,11 @@ cd discover-git-server-dns
 
 # Install GitCid into current git repo.
 if [ ! -d ".gc/" ]; then
+  echo ""
+  echo "Installing GitCid into git repo..."
+  echo ""
   source <(curl -sL https://tinyurl.com/gitcid) -e
+  echo ""
 fi
 
 cd ~
