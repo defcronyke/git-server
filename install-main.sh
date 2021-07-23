@@ -1,14 +1,8 @@
 #!/bin/bash
 
+# Allow sudo without password for the current user. 
+# Needed for parallel mode operation.
 git_server_sudo_setup() {
-  # ----------
-  # Allow sudo without password for the current user, for convenience.
-  #
-  # NOTE: If you don't want this convenience, you can comment out the
-  # lines below, and then you'll need to type the sudo password sometimes
-  # when maybe it would be better to not have to do that, so things
-  # can happen more automatically.
-  
   # Try to grant sudo permission and exit if unavailable.
   sudo cat /dev/null
   res=$?
@@ -19,11 +13,12 @@ git_server_sudo_setup() {
     echo ""
     echo "  .gc/new-git-server.sh -s git1 git2 gitlab"
     echo ""
-    exit $?
+    return $res
   fi
 
   sudo cat /etc/sudoers.d/*_$USER-nopasswd 2>/dev/null | grep 'ALL=(ALL) NOPASSWD: ALL' >/dev/null
-  if [ $? -ne 0 ]; then
+  res=$?
+  if [ $res -ne 0 ]; then
     echo ""
     echo "Setting up passwordless sudo for user: $USER"
     echo ""
@@ -33,8 +28,17 @@ git_server_sudo_setup() {
     
     echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/010_$USER-nopasswd >/dev/null 2>&1 && \
     sudo chmod 440 /etc/sudoers.d/010_$USER-nopasswd
+
+    echo ""
+    echo "Finished setting up passwordless sudo for user: $USER"
+    echo ""
+    echo "You can re-run installation in parallel mode now if you prefer. Exiting..."
+    echo ""
+
+    return $res
   fi
-  # ----------
+
+  return $res
 }
 
 git_server_install_main_routine() {
@@ -42,7 +46,8 @@ git_server_install_main_routine() {
   echo "Installing git server utilities..."
   echo ""
 
-  git_server_sudo_setup
+  git_server_sudo_setup || \
+    return $?
 
   if [ `hostname` == "git" ]; then
     echo ""
@@ -445,4 +450,4 @@ git_server_install_main_routine() {
   echo ""
 }
 
-git_server_install_main_routine
+git_server_install_main_routine $@
