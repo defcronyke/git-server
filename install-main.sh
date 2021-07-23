@@ -62,7 +62,7 @@ git_server_sudo_setup() {
     echo "You can re-run installation in parallel mode now if you prefer. Exiting..."
     echo ""
 
-    return $res
+    return 19
   fi
 
   return $res
