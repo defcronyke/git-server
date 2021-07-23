@@ -10,10 +10,6 @@ git_server_sudo_setup() {
   # can happen more automatically.
   
   # Try to grant sudo permission and exit if unavailable.
-  echo ""
-  echo "Setting up sudo..."
-  echo ""
-
   sudo cat /dev/null
   res=$?
   if [ $res -ne 0 ]; then
@@ -28,6 +24,10 @@ git_server_sudo_setup() {
 
   sudo cat /etc/sudoers.d/*_$USER-nopasswd 2>/dev/null | grep 'ALL=(ALL) NOPASSWD: ALL' >/dev/null
   if [ $? -ne 0 ]; then
+    echo ""
+    echo "Setting up passwordless sudo for user: $USER"
+    echo ""
+
     sudo mkdir /etc/sudoers.d/ 2>/dev/null && \
     sudo chmod 750 /etc/sudoers.d/
     
