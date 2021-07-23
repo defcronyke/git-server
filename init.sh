@@ -5,8 +5,13 @@
 #
 
 git_server_init_routine() {
+  echo ""
+  echo "Initializing device: ${USER}@$(hostname)"
+  echo ""
+
   if [ $# -gt 0 ]; then
     echo "args: $@"
+    echo ""
   fi
 
   cd ~
@@ -25,11 +30,9 @@ git_server_init_routine() {
   # ----------
 
 	if [ -d "git-server" ]; then
-		echo
-		echo "This device has already been initialized. (Re-)Installing..."
-		echo
-		echo "  cd git-server; ./install.sh; cd .."
-		echo
+		echo ""
+		echo "This device has already been initialized. (Re-)Installing: ./install.sh"
+		echo ""
 
     cd git-server && \
     ./install.sh $@
