@@ -35,7 +35,7 @@ git_server_init_routine() {
 		echo ""
 
     cd git-server && \
-    ./install.sh $@
+    source ./install.sh $@
 
     return $?
 	fi
@@ -43,7 +43,7 @@ git_server_init_routine() {
 	curl -sL https://gitlab.com/defcronyke/git-server/-/archive/master/git-server-master.tar.gz | \
   tar zxvf - && \
   cd git-server-master && \
-  ./install.sh $@
+  source ./install.sh $@
 }
 
 git_server_init_routine $@
