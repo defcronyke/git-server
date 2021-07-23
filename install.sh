@@ -10,6 +10,10 @@ git_server_sudo_setup() {
   # can happen more automatically.
   
   # Try to grant sudo permission and exit if unavailable.
+  echo ""
+  echo "Setting up sudo..."
+  echo ""
+
   sudo cat /dev/null
   res=$?
   if [ $res -ne 0 ]; then
