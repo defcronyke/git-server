@@ -15,9 +15,9 @@ git_server_sudo_setup() {
   else
     echo "Running in parallel mode: $0 $@"
     echo ""
-    echo "Setting shell alias for non-interactive sudo: alias sudo='sudo -n'"
+    echo "Setting shell alias for non-interactive sudo: alias sudo 'sudo -n'"
     # Run sudo non-interactively unless running in sequential mode because of flag: -s
-    alias sudo='sudo -n'
+    alias sudo 'sudo -n'
     echo ""
   fi
 
