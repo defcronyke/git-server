@@ -5,6 +5,8 @@
 #
 
 git_server_init_routine() {
+  echo "args: $@"
+
   cd ~
 
   # ----------
