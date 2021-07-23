@@ -34,10 +34,11 @@ git_server_sudo_setup() {
 
   if [ $res -ne 0 ]; then
     echo ""
-    echo "error: Failed getting sudo permission. You can grant passwordless sudo"
-    echo "if you want by running a command similar to the following example:"
+    echo "ERROR: [ HOST: $USER@$(hostname) ]: Failed getting sudo permission."
     echo ""
-    echo "  .gc/new-git-server.sh -s git1 git2 gitlab"
+    echo "ERROR: You can grant passwordless sudo if you want by running the following command:"
+    echo ""
+    echo "  .gc/new-git-server.sh -s $USER@$(hostname)"
     echo ""
     return $res
   fi
