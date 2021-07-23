@@ -3,6 +3,22 @@
 # Allow sudo without password for the current user. 
 # Needed for parallel mode operation.
 git_server_sudo_setup() {
+  echo ""
+  echo "Checking sudo config..."
+  echo ""
+
+  if [ "$1" == "-s" ] || [ "$1" == "-so" ] || [ "$1" == "-os" ]; then
+    echo "Running in sequential mode: $0 $@"
+    echo ""
+  else
+    echo "Running in parallel mode: $0 $@"
+    echo ""
+    echo "Setting shell alias for non-interactive sudo: alias sudo='sudo -n'"
+    # Run sudo non-interactively unless running in sequential mode because of flag: -s
+    alias sudo='sudo -n'
+    echo ""
+  fi
+
   # Try to grant sudo permission and exit if unavailable.
   sudo cat /dev/null
   res=$?
@@ -43,10 +59,15 @@ git_server_sudo_setup() {
 
 git_server_install_main_routine() {
   echo ""
-  echo "Installing git server utilities..."
+  echo "Installing git server utilities: $USER@$(hostname)"
   echo ""
 
-  git_server_sudo_setup || \
+  if [ $# -gt 0 ]; then
+    echo "args: $@"
+    echo ""
+  fi
+
+  git_server_sudo_setup $0 || \
     return $?
 
   if [ `hostname` == "git" ]; then
