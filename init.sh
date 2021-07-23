@@ -5,7 +5,9 @@
 #
 
 git_server_init_routine() {
-  echo "args: $@"
+  if [ $# -gt 0 ]; then
+    echo "args: $@"
+  fi
 
   cd ~
 
