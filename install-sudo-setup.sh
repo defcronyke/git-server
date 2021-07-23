@@ -43,7 +43,7 @@ git_server_sudo_setup() {
     return 17
   fi
 
-  sudo cat /etc/sudoers.d/*_$USER-nopasswd 2>/dev/null | grep "$USER ALL=(ALL) NOPASSWD: ALL" >/dev/null
+  sudo cat "/etc/sudoers.d/$(sudo ls -1 /etc/sudoers.d/ | grep "_${USER}-nopasswd")" 2>/dev/null | grep "$USER ALL=(ALL) NOPASSWD: ALL" >/dev/null
   res=$?
   if [ $res -ne 0 ]; then
     echo ""
