@@ -1,73 +1,5 @@
 #!/bin/bash
 
-# Allow sudo without password for the current user. 
-# Needed for parallel mode operation.
-git_server_sudo_setup() {
-  echo ""
-  echo "Checking sudo config..."
-  echo ""
-
-  if [ $# -gt 0 ]; then
-    echo "sudo config args: $@"
-    echo ""
-  fi
-
-  if [ "$1" == "-s" ] || [ "$1" == "-so" ] || [ "$1" == "-os" ]; then
-    echo "Running in sequential mode: $0 $@"
-    echo ""
-
-    # Try to grant sudo permission and exit if unavailable.
-    sudo cat /dev/null
-    res=$?
-  else
-    echo "Running in parallel mode: $0 $@"
-    echo ""
-    echo "Setting shell alias for non-interactive sudo: alias sudo='sudo -n'"
-    # Run sudo non-interactively unless running in sequential mode because of flag: -s
-    alias sudo='sudo -n'
-    echo ""
-
-    # Try to grant sudo permission and exit if unavailable.
-    sudo -n cat /dev/null
-    res=$?
-  fi
-
-  if [ $res -ne 0 ]; then
-    echo ""
-    echo "ERROR: [ HOST: $USER@$(hostname) ]: Failed getting sudo permission."
-    echo ""
-    echo "ERROR: You can grant passwordless sudo if you want by running the following command:"
-    echo ""
-    echo "  .gc/new-git-server.sh -s $USER@$(hostname)"
-    echo ""
-    return 17
-  fi
-
-  sudo cat /etc/sudoers.d/*_$USER-nopasswd 2>/dev/null | grep "$USER ALL=(ALL) NOPASSWD: ALL" >/dev/null
-  res=$?
-  if [ $res -ne 0 ]; then
-    echo ""
-    echo "Setting up passwordless sudo for user: $USER"
-    echo ""
-
-    sudo mkdir /etc/sudoers.d/ 2>/dev/null && \
-    sudo chmod 750 /etc/sudoers.d/
-    
-    echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/010_$USER-nopasswd >/dev/null 2>&1 && \
-    sudo chmod 440 /etc/sudoers.d/010_$USER-nopasswd
-
-    echo ""
-    echo "Finished setting up passwordless sudo for user: $USER"
-    echo ""
-    echo "You can re-run installation in parallel mode now if you prefer. Exiting..."
-    echo ""
-
-    return 19
-  fi
-
-  return $res
-}
-
 git_server_install_main_routine() {
   echo ""
   echo "Installing git server utilities: $USER@$(hostname)"
@@ -78,7 +10,7 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  git_server_sudo_setup $@ || \
+  ./install-sudo-setup.sh $@ || \
     return $?
 
   if [ `hostname` == "git" ]; then

@@ -1,6 +1,10 @@
 #!/bin/bash
 
 git_server_install_routine() {
+  # Set up sudo for non-interactive operation.
+  ./install-sudo-setup.sh $@ || \
+    return $?
+
   # ----------
   # Do some minimal git config setup to make some annoying yellow warning text stop 
   # showing on newer versions of git.
