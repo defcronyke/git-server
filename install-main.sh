@@ -40,7 +40,7 @@ git_server_sudo_setup() {
     echo ""
     echo "  .gc/new-git-server.sh -s $USER@$(hostname)"
     echo ""
-    return $res
+    return 17
   fi
 
   sudo cat /etc/sudoers.d/*_$USER-nopasswd 2>/dev/null | grep 'ALL=(ALL) NOPASSWD: ALL' >/dev/null
