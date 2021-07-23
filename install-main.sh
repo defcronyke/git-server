@@ -6,6 +6,8 @@ git_server_sudo_setup() {
   echo ""
   echo "Checking sudo config..."
   echo ""
+  echo "sudo config args: $@"
+  echo ""
 
   if [ "$1" == "-s" ] || [ "$1" == "-so" ] || [ "$1" == "-os" ]; then
     echo "Running in sequential mode: $0 $@"
@@ -67,7 +69,7 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  git_server_sudo_setup $0 || \
+  git_server_sudo_setup $@ || \
     return $?
 
   if [ `hostname` == "git" ]; then
