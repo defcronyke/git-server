@@ -1,29 +1,37 @@
 #!/bin/bash
 
-if [ "$1" == "-s" ] || [ "$1" == "-so" ] || [ "$1" == "-os" ]; then
-  echo "Running in sequential mode: $0 $@"
-  echo ""
-else
-  echo "Running in parallel mode: $0 $@"
-  echo ""
-  echo "Setting shell alias for non-interactive sudo: alias sudo='sudo -n'"
-  # Run sudo non-interactively unless running in sequential mode because of flag: -s
-  alias sudo='sudo -n'
-  echo ""
-fi
-
 # Allow sudo without password for the current user. 
 # Needed for parallel mode operation.
 git_server_sudo_setup() {
   echo ""
   echo "Checking sudo config..."
   echo ""
-  echo "sudo config args: $@"
-  echo ""
 
-  # Try to grant sudo permission and exit if unavailable.
-  sudo cat /dev/null
-  res=$?
+  if [ $# -gt 0 ]; then
+    echo "sudo config args: $@"
+    echo ""
+  fi
+
+  if [ "$1" == "-s" ] || [ "$1" == "-so" ] || [ "$1" == "-os" ]; then
+    echo "Running in sequential mode: $0 $@"
+    echo ""
+
+    # Try to grant sudo permission and exit if unavailable.
+    sudo cat /dev/null
+    res=$?
+  else
+    echo "Running in parallel mode: $0 $@"
+    echo ""
+    echo "Setting shell alias for non-interactive sudo: alias sudo='sudo -n'"
+    # Run sudo non-interactively unless running in sequential mode because of flag: -s
+    alias sudo='sudo -n'
+    echo ""
+
+    # Try to grant sudo permission and exit if unavailable.
+    sudo -n cat /dev/null
+    res=$?
+  fi
+
   if [ $res -ne 0 ]; then
     echo ""
     echo "error: Failed getting sudo permission. You can grant passwordless sudo"
