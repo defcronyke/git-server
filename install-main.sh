@@ -245,9 +245,10 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  echo "Adding root git repo for use by GitWeb: $HOME/git"
+  echo "Adding root git repo for use by GitWeb: $HOME"
   echo ""
-  cd $HOME/git
+  cd "$HOME"
+  printf '%b\n' "*\n!git/\ngit/*" | tee .gitignore
   git init
 
   echo ""
@@ -393,6 +394,7 @@ git_server_install_main_routine() {
     echo "Creating git remote repo for bind DNS settings updates: ~/git/etc/bind.git"
     echo ""
     .gc/init.sh -b ~/git/etc/bind.git
+    echo ""
   fi
 
   sudo ls /etc/bind/.git >/dev/null 2>&1
@@ -401,6 +403,7 @@ git_server_install_main_routine() {
     echo "It will pull regularly from: ~/git/etc/bind.git"
     echo ""
     sudo .gc/init.sh /etc/bind
+    echo ""
   fi
 
   echo ""
