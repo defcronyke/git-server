@@ -383,6 +383,28 @@ git_server_install_main_routine() {
 
   echo ""
 
+  # Create ~/git/etc/bind.git git remote repo for bind DNS 
+  # settings updates.
+  sudo mkdir -p /opt/git/etc
+  sudo chown -R $USER: /opt/git/etc
+  chmod 770 /opt/git/etc
+
+  if [ ! -d "/opt/git/etc/bind.git" ]; then
+    echo "Creating git remote repo for bind DNS settings updates: ~/git/etc/bind.git"
+    echo ""
+    .gc/init.sh -b ~/git/etc/bind.git
+  fi
+
+  sudo ls /etc/bind/.git >/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "Initializing git repo for bind DNS settings: /etc/bind"
+    echo "It will pull regularly from: ~/git/etc/bind.git"
+    echo ""
+    sudo .gc/init.sh /etc/bind
+  fi
+
+  echo ""
+
   # # Detect all git servers on the remote device's network,
   # # and list URLs for accessing their GitWeb interfaces.
   # echo ""
