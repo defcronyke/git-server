@@ -341,8 +341,12 @@ git_server_install_main_routine() {
   # Start git instaweb: http://localhost:1234
   echo ""
   echo "Starting git instaweb..."
-  cd ~/git
+  cd ~
 
+  sudo chown -R $USER: /home/$USER/.git/gitweb
+  sudo chown $USER: /home/$USER/.git/pid
+
+  # DEPRECATED: The following two lines are deprecated.
   sudo chown -R $USER: /home/$USER/git/.git/gitweb
   sudo chown $USER: /home/$USER/git/.git/pid
 
