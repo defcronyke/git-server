@@ -412,6 +412,8 @@ git_server_install_main_routine() {
     echo ""
     echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
     echo ""
+    sudo git config --global user.email "git-admin@$(hostname)"
+    sudo git config --global user.name "git admin"
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind add .
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind commit -m "Initial commit"
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind push -u origin master
