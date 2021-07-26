@@ -439,6 +439,9 @@ git_server_install_main_routine() {
     echo ""
   fi
 
+  # Update bind DNS SRV records on detected git servers.
+  ./git-update-srv.sh
+
   echo ""
 
   # # Detect all git servers on the remote device's network,
