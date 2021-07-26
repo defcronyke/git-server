@@ -408,6 +408,19 @@ git_server_install_main_routine() {
     echo ""
     sudo .gc/init.sh /etc/bind
     echo ""
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind remote add origin ~/git/etc/bind.git
+    echo ""
+    echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
+    echo ""
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind add .
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind commit -m "Initial commit"
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind push -u origin master
+    echo ""
+  else
+    echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull
+    echo ""
   fi
 
   echo ""
