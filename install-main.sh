@@ -417,11 +417,14 @@ git_server_install_main_routine() {
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind add .
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind commit -m "Initial commit"
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind push -u origin master
+    sudo chown -R $USER: ~/git/etc/bind.git/.gc/
     echo ""
   else
     echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind reset --hard HEAD
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull
+    sudo chown -R $USER: ~/git/etc/bind.git/.gc/
     echo ""
   fi
 
