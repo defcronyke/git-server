@@ -419,7 +419,7 @@ git_server_install_main_routine() {
   else
     echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull -u origin master
     echo ""
   fi
 
