@@ -10,6 +10,9 @@ git_server_install_main_routine() {
     echo ""
   fi
 
+  git config --global user.email "git@$(hostname)"
+  git config --global user.name "git"
+
   ./install-sudo-setup.sh $@ || \
     return $?
 
@@ -25,6 +28,9 @@ git_server_install_main_routine() {
     echo ""
     return 1
   fi
+  
+  sudo git config --global user.email "git-admin@$(hostname)"
+  sudo git config --global user.name "git admin"
 
   ./install-packages.sh
 
@@ -401,6 +407,8 @@ git_server_install_main_routine() {
     echo ""
   fi
 
+  cp -f post-receive ~/git/etc/bind.git/hooks/
+
   sudo ls /etc/bind/.git >/dev/null 2>&1
   if [ $? -ne 0 ]; then
     echo "Initializing git repo for bind DNS settings: /etc/bind"
@@ -412,8 +420,7 @@ git_server_install_main_routine() {
     echo ""
     echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
     echo ""
-    sudo git config --global user.email "git-admin@$(hostname)"
-    sudo git config --global user.name "git admin"
+    
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind add .
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind commit -m "Initial commit"
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind push -u origin master
