@@ -425,6 +425,9 @@ git_server_install_main_routine() {
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull
     sudo chown -R $USER: ~/git/etc/bind.git/.gc/
+    sudo systemctl try-restart bind9 || \
+    sudo systemctl try-restart named
+    sudo systemctl daemon-reload
     echo ""
   fi
 
