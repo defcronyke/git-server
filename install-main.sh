@@ -407,8 +407,8 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  cp -f post-receive ~/git/etc/bind.git/hooks/
-  chmod 750 ~/git/etc/bind.git/hooks/post-receive
+  cp -f post-receive ~/git/etc/bind.git/.gc/.gc-git-hooks/
+  chmod 750 ~/git/etc/bind.git/.gc/.gc-git-hooks/post-receive
 
   sudo ls /etc/bind/.git >/dev/null 2>&1
   if [ $? -ne 0 ]; then
