@@ -226,7 +226,7 @@ git_server_install_main_routine() {
     cd usb-mount-git
   else
     cd usb-mount-git
-    git pull
+    git pull origin master
   fi
 
   ./install-usb-mount-git.sh && \
@@ -306,7 +306,7 @@ git_server_install_main_routine() {
     echo "Updating gitcid if any updates are available..."
     echo ""
     cd gitcid
-    git pull
+    git pull origin master
     echo ""
   fi
 
@@ -332,7 +332,7 @@ git_server_install_main_routine() {
     echo "Updating test repo if any updates are available: $HOME/repo1"
     echo ""
     cd ~/repo1
-    git pull 2>/dev/null
+    git pull origin master 2>/dev/null
     echo ""
   fi
 
@@ -384,7 +384,7 @@ git_server_install_main_routine() {
     cd discover-git-server-dns
   else
     cd discover-git-server-dns && \
-    git pull
+    git pull origin master
   fi
 
   echo ""
@@ -437,8 +437,8 @@ git_server_install_main_routine() {
   else
     echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
     sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind reset --hard HEAD
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull
+    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
+    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull origin master
     sudo chown -R $USER: ~/git/etc/bind.git/.gc/
     sudo systemctl try-restart bind9 || \
     sudo systemctl try-restart named

@@ -18,7 +18,7 @@ git_server_install_routine() {
   git config --global init.defaultBranch master >/dev/null 2>&1
   # ----------
 
-  git pull 2>/dev/null
+  git pull origin master 2>/dev/null
   if [ $? -ne 0 ]; then
     echo "" && \
     echo "Fetching git-server git repo..." && \
@@ -35,7 +35,7 @@ git_server_install_routine() {
       # git_server_sudo_setup
     else
       cd git-server && \
-      git pull
+      git pull origin master
 
       # git_server_sudo_setup
     fi
