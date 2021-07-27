@@ -446,7 +446,7 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  # Update bind DNS SRV records on detected git servers.
+  # Update bind DNS SRV records on detected git servers (twice in a row for best effect).
   ./git-update-srv.sh $@
   ./git-update-srv.sh $@
 
