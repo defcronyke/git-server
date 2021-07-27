@@ -209,6 +209,13 @@ git_server_install_main_routine() {
   # 	echo
   # fi
 
+
+  # Add symlink in /root
+  sudo ls /root/git-server/
+  if [ $? -ne 0 ]; then
+    sudo ln -s "$HOME"/git-server /root/git-server
+  fi
+
   echo ""
   echo "Installing usb-mount-git..."
 
