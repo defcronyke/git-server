@@ -56,6 +56,7 @@ git_server_install_main_routine() {
     echo ""
   fi
 
+
   # Set ufw defaults
   echo ""
   echo "Setting ufw defaults..."
