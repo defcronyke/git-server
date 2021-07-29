@@ -29,7 +29,8 @@ git_server_sudo_setup() {
 
     # Try to grant sudo permission and exit if unavailable.
     sudo -n cat /dev/null
-    exit $?
+    return $?
+    # exit $?
     # res=$?
   fi
 
