@@ -2,6 +2,11 @@
 
 git_server_install_routine() {
   # Set up sudo for non-interactive operation.
+  # ./install-sudo-setup.sh $@
+  # install_sudo_res=$?
+
+  # if [ $install_sudo_res -ne 0 ] && [ $install_sudo_res -ne 19 ] &&
+
   ./install-sudo-setup.sh $@ || \
     return $?
 

@@ -65,7 +65,7 @@ git_server_sudo_setup() {
     return 19
   fi
 
-  return 19
+  return $res
   # return 18
   # return $res
 }
