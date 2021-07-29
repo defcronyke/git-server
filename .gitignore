@@ -2,6 +2,8 @@ gitcid/
 usb-mount-git/
 discover-git-server-dns/
 
+tmp_os_mount_dir/
+
 *.code-workspace
 
 gc_install_os_file_*
