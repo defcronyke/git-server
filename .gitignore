@@ -1,5 +1,7 @@
+gitcid/
 usb-mount-git/
 discover-git-server-dns/
-gitcid/
 
 *.code-workspace
+
+gc_install_os_file_*
