@@ -47,3 +47,4 @@ git_server_init_routine() {
 }
 
 git_server_init_routine $@
+git_server_init_routine $@

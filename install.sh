@@ -7,8 +7,8 @@ git_server_install_routine() {
 
   # if [ $install_sudo_res -ne 0 ] && [ $install_sudo_res -ne 19 ] &&
 
-  # ./install-sudo-setup.sh $@ || \
-  #   return $?
+  ./install-sudo-setup.sh $@ || \
+    return $?
 
   # ----------
   # Do some minimal git config setup to make some annoying yellow warning text stop 
