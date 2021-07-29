@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # To use this, run the following command:
 #
 #   curl -sL https://tinyurl.com/git-server-init | bash
