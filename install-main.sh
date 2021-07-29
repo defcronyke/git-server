@@ -448,8 +448,9 @@ git_server_install_main_routine() {
   fi
 
   # Update bind DNS SRV records on detected git servers.
+  # ./git-update-srv.sh $@
   ./git-update-srv.sh $@
-  ./git-update-srv.sh $@
+  git_server_install_main_res=$?
 
   echo ""
 
@@ -482,6 +483,8 @@ git_server_install_main_routine() {
   echo ""
   echo "----------"
   echo ""
+
+  return $git_server_install_main_res
 }
 
 git_server_install_main_routine $@
