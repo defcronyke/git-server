@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 git_server_install_packages() {
   sudo apt-get update && \

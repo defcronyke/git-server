@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Allow sudo without password for the current user. 
 # Needed for parallel mode operation.
