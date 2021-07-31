@@ -357,12 +357,8 @@ git_server_install_main_routine() {
   echo "Starting git instaweb..."
   cd ~
 
-  sudo chown -R $USER: /home/$USER/.git/gitweb
-  sudo chown $USER: /home/$USER/.git/pid
-
-  # DEPRECATED: The following two lines are deprecated.
-  sudo chown -R $USER: /home/$USER/git/.git/gitweb
-  sudo chown $USER: /home/$USER/git/.git/pid
+  sudo chown -R $USER: /home/$USER/.git/gitweb >/dev/null 2>&1
+  sudo chown $USER: /home/$USER/.git/pid >/dev/null 2>&1
 
   git instaweb --restart 2>/dev/null
   #GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git instaweb 2>/dev/null
