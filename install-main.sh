@@ -439,42 +439,42 @@ git_server_install_main_routine() {
 
   sudo gpasswd -a $USER bind
 
-  sudo ls /etc/bind/.git >/dev/null 2>&1
-  if [ $? -ne 0 ]; then
-    echo "Initializing git repo for bind DNS settings: /etc/bind"
-    echo "It will pull regularly from: ~/git/etc/bind.git"
-    echo ""
-    # sudo .gc/init.sh /etc/bind
+  # sudo ls /etc/bind/.git >/dev/null 2>&1
+  # if [ $? -ne 0 ]; then
+  #   echo "Initializing git repo for bind DNS settings: /etc/bind"
+  #   echo "It will pull regularly from: ~/git/etc/bind.git"
+  #   echo ""
+  #   # sudo .gc/init.sh /etc/bind
 
-    sudo chmod 770 /etc/bind
-    cd /etc/bind
-    sudo git init
-    echo ""
-    sudo chown -R $USER: /etc/bind/.git
-    chmod 770 /etc/bind/.git
-    git remote add origin ~/git/etc/bind.git || \
-    git remote set-url origin ~/git/etc/bind.git
+  #   sudo chmod 770 /etc/bind
+  #   cd /etc/bind
+  #   sudo git init
+  #   echo ""
+  #   sudo chown -R $USER: /etc/bind/.git
+  #   chmod 770 /etc/bind/.git
+  #   git remote add origin ~/git/etc/bind.git || \
+  #   git remote set-url origin ~/git/etc/bind.git
 
 
-    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind remote add origin ~/git/etc/bind.git
-    echo ""
-    echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
-    echo ""
+  #   # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind remote add origin ~/git/etc/bind.git
+  #   echo ""
+  #   echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
+  #   echo ""
     
-    git add .
-    git commit -m "Initial commit"
-    sudo chown -R $USER: .git
-    sudo chown -R $USER: ~/git/etc/bind.git
-    git push -u origin master
-    echo ""
-  else
-    echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
-    git reset --hard HEAD
-    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
-    git pull origin master
-    sudo chown -R $USER: ~/git/etc/bind.git
-    echo ""
-  fi
+  #   git add .
+  #   git commit -m "Initial commit"
+  #   sudo chown -R $USER: .git
+  #   sudo chown -R $USER: ~/git/etc/bind.git
+  #   git push -u origin master
+  #   echo ""
+  # else
+  #   echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
+  #   git reset --hard HEAD
+  #   # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
+  #   git pull origin master
+  #   sudo chown -R $USER: ~/git/etc/bind.git
+  #   echo ""
+  # fi
 
   sudo systemctl try-restart bind9 || \
   sudo systemctl try-restart named
