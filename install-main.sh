@@ -495,16 +495,19 @@ git_server_install_main_routine() {
 
   cd ~
 
-  sudo chown -R $USER: git-server
-
-  sudo chown -R $USER: git-server-master
+  sudo chown -R $USER: git-server 2>/dev/null
 
   # Remove bootstrap dir "git-server-master" if present.
   if [ -d "git-server-master" ]; then
     echo "Removing bootstrap dir: $HOME/git-server-master"
+    sudo chown -R $USER: git-server-master
     rm -rf git-server-master
     echo ""
   fi
+
+  sudo systemctl try-restart bind9 || \
+  sudo systemctl try-restart named
+  sudo systemctl daemon-reload
 
   echo "git server utilities installed"
   echo ""
