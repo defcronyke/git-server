@@ -386,15 +386,24 @@ git_server_install_main_routine() {
 
   echo ""
 
+  sudo chown -R $USER: .
+  chmod 770 .
+
   ./install.sh
+
+  sudo chown -R $USER: .
+  chmod 770 .
 
   # Install GitCid into current git repo.
   if [ ! -d ".gc/" ]; then
     echo ""
     echo "Installing GitCid into git repo..."
     echo ""
-    source <(curl -sL https://tinyurl.com/gitcid) -e >/dev/null
+    source <(curl -sL https://tinyurl.com/gitcid) -e
   fi
+
+  sudo chown -R $USER: .
+  chmod 770 .
 
   echo ""
 
@@ -411,7 +420,21 @@ git_server_install_main_routine() {
     echo ""
   fi
 
-  cp -f post-receive ~/git/etc/bind.git/.gc/.gc-git-hooks/
+  sudo chown -R $USER: ~/git/etc/bind.git
+  chmod 770 ~/git/etc/bind.git
+
+  cd ~/git/etc/bind.git
+
+  if [ ! -d ".gc/" ]; then
+    echo ""
+    echo "Installing GitCid into git repo..."
+    echo ""
+    source <(curl -sL https://tinyurl.com/gitcid) -e
+  fi
+
+  cd ~/git-server/discover-git-server-dns
+
+  cp -rf post-receive ~/git/etc/bind.git/.gc/.gc-git-hooks/
   chmod 750 ~/git/etc/bind.git/.gc/.gc-git-hooks/post-receive
 
   sudo ls /etc/bind/.git >/dev/null 2>&1
@@ -419,29 +442,41 @@ git_server_install_main_routine() {
     echo "Initializing git repo for bind DNS settings: /etc/bind"
     echo "It will pull regularly from: ~/git/etc/bind.git"
     echo ""
-    sudo .gc/init.sh /etc/bind
+    # sudo .gc/init.sh /etc/bind
+
+    sudo chmod 770 /etc/bind
+    cd /etc/bind
+    sudo git init
     echo ""
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind remote add origin ~/git/etc/bind.git
+    sudo chown -R $USER: /etc/bind/.git
+    chmod 770 /etc/bind/.git
+    git remote add origin ~/git/etc/bind.git || \
+    git remote set-url origin ~/git/etc/bind.git
+
+
+    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind remote add origin ~/git/etc/bind.git
     echo ""
     echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
     echo ""
     
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind add .
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind commit -m "Initial commit"
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind push -u origin master
-    sudo chown -R $USER: ~/git/etc/bind.git/.gc/
+    git add .
+    git commit -m "Initial commit"
+    sudo chown -R $USER: .git
+    sudo chown -R $USER: ~/git/etc/bind.git
+    git push -u origin master
     echo ""
   else
     echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind reset --hard HEAD
+    git reset --hard HEAD
     # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
-    sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind pull origin master
-    sudo chown -R $USER: ~/git/etc/bind.git/.gc/
-    sudo systemctl try-restart bind9 || \
-    sudo systemctl try-restart named
-    sudo systemctl daemon-reload
+    git pull origin master
+    sudo chown -R $USER: ~/git/etc/bind.git
     echo ""
   fi
+
+  sudo systemctl try-restart bind9 || \
+  sudo systemctl try-restart named
+  sudo systemctl daemon-reload
 
   # Update bind DNS SRV records on detected git servers.
   # ./git-update-srv.sh $@
@@ -457,6 +492,10 @@ git_server_install_main_routine() {
   # echo ""
 
   cd ~
+
+  sudo chown -R $USER: git-server
+
+  sudo chown -R $USER: git-server-master
 
   # Remove bootstrap dir "git-server-master" if present.
   if [ -d "git-server-master" ]; then
