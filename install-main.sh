@@ -440,6 +440,8 @@ git_server_install_main_routine() {
   chmod 750 ~/git/etc/bind.git/.gc/.gc-git-hooks/post-receive
 
   sudo gpasswd -a $USER bind
+  sudo chown -R root:bind /etc/bind
+  sudo chmod 775 /etc/bind
 
   sudo ls /etc/bind/.git >/dev/null 2>&1
   if [ $? -ne 0 ]; then
@@ -448,12 +450,12 @@ git_server_install_main_routine() {
     echo ""
     # sudo .gc/init.sh /etc/bind
 
-    sudo chmod 770 /etc/bind
+    sudo chmod 775 /etc/bind
     cd /etc/bind
     sudo git init
     echo ""
     sudo chown -R $USER: /etc/bind/.git
-    chmod 770 /etc/bind/.git
+    sudo chmod 770 /etc/bind/.git
     git remote add origin ~/git/etc/bind.git || \
     git remote set-url origin ~/git/etc/bind.git
 
@@ -472,8 +474,11 @@ git_server_install_main_routine() {
   else
     echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
 
-    sudo chmod 770 /etc/bind
+    sudo chmod 775 /etc/bind
     cd /etc/bind
+
+    sudo chown -R $USER: /etc/bind/.git
+    sudo chmod 770 /etc/bind/.git
 
     git reset --hard HEAD
     # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
