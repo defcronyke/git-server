@@ -479,11 +479,18 @@ git_server_install_main_routine() {
 
     sudo chown -R $USER: /etc/bind/.git
     sudo chmod 770 /etc/bind/.git
-
-    git reset --hard HEAD
-    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
-    git pull --no-edit origin master
+    
     sudo chown -R $USER: ~/git/etc/bind.git
+
+    sudo git reset --hard HEAD
+    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
+    sudo git pull --no-edit origin master
+
+    git add .
+    git commit -m "Update commit"
+
+    git push -u origin master
+    
     echo ""
   fi
 
