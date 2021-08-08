@@ -425,6 +425,8 @@ git_server_install_main_routine() {
 
   cd ~/git/etc/bind.git
 
+  echo ".gc/" | tee .gitignore
+
   if [ ! -d ".gc/" ]; then
     echo ""
     echo "Installing GitCid into git repo..."
