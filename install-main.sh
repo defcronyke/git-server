@@ -420,6 +420,52 @@ git_server_install_main_routine() {
     echo ""
   fi
 
+
+  if [ ! -d "/etc/bind/.git" ]; then
+
+    echo "Cloning bind repo into system dir: /etc/bind"
+    echo ""
+
+    sudo mv /etc/bind /etc/bind-moved-tmp
+
+    sudo git clone ~/git/etc/bind.git /etc/bind
+
+    sudo gpasswd -a $USER bind
+    sudo chown -R root:bind /etc/bind
+    sudo chmod 775 /etc/bind
+
+    cd /etc/bind
+    sudo mv /etc/bind-moved-tmp/* /etc/bind/
+
+    sudo rm -rf /etc/bind-moved-tmp
+
+    sudo chown -R root:bind /etc/bind
+
+    sudo chown -R $USER: /etc/bind/.git
+    sudo chmod 770 /etc/bind/.git
+
+    git add .
+    git commit -m "Initial commit"
+    sudo chown -R $USER: .git
+    sudo chown -R $USER: ~/git/etc/bind.git
+    git push -u origin master
+    echo ""
+  
+  else
+    echo "Pulling bind repo updates into system dir: /etc/bind"
+    echo ""
+
+    sudo gpasswd -a $USER bind
+    sudo chown -R root:bind /etc/bind
+    sudo chmod 775 /etc/bind
+
+    cd /etc/bind
+
+    sudo git pull --no-edit origin master
+    echo ""
+  fi
+
+
   sudo chown -R $USER: ~/git/etc/bind.git
   chmod 770 ~/git/etc/bind.git
 
