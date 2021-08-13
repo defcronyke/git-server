@@ -57,12 +57,12 @@ git_server_install_main_routine() {
   fi
 
 
-  # # Set ufw defaults
-  # echo ""
-  # echo "Setting ufw defaults..."
-  # sudo ufw default deny incoming
-  # sudo ufw default allow outgoing
-  # echo ""
+  # Set ufw defaults
+  echo ""
+  echo "Setting ufw defaults..."
+  sudo ufw default allow outgoing
+  sudo ufw default deny incoming
+  echo ""
 
   # Add some very permissive ufw rules if needed.
   #
@@ -171,16 +171,22 @@ git_server_install_main_routine() {
   sudo ufw status | grep "Status: inactive"
   if [ $? -eq 0 ]; then
     echo ""
-    echo "info: Reloading (1) ufw firewall..."
-    sudo ufw reload
-    echo ""
     echo "info: Enabling ufw firewall..."
-    sudo ufw --force enable
-    echo ""
-    echo "info: Reloading (2) ufw firewall..."
-    sudo ufw reload
+    sudo systemctl enable ufw
     echo ""
   fi
+
+  # # Enable ufw firewall if not enabled.
+  # sudo ufw status | grep "Status: inactive"
+  # if [ $? -eq 0 ]; then
+  #   echo ""
+  #   echo "info: Enabling ufw firewall..."
+  #   sudo ufw --force enable
+  #   echo ""
+  #   echo "info: Reloading ufw firewall..."
+  #   sudo ufw reload
+  #   echo ""
+  # fi
 
   # # Recommend enabling ufw if not enabled.
   # sudo ufw status | grep "Status: inactive"
