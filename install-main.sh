@@ -577,6 +577,21 @@ git_server_install_main_routine() {
   sudo systemctl try-restart named
   sudo systemctl daemon-reload
 
+
+
+  cd /etc/bind
+
+  sudo git add .
+  sudo git commit -m "Update DNS zones."
+  sudo chown -R $USER: .git
+  sudo chown -R $USER: ~/git/etc/bind.git
+  git push -u origin master
+  echo ""
+
+  cd ~
+
+
+
   echo "git server utilities installed"
   echo ""
   echo "done"
