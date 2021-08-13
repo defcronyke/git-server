@@ -444,8 +444,8 @@ git_server_install_main_routine() {
     sudo chown -R $USER: /etc/bind/.git
     sudo chmod 770 /etc/bind/.git
 
-    git add .
-    git commit -m "Initial commit"
+    sudo git add .
+    sudo git commit -m "Initial commit"
     sudo chown -R $USER: .git
     sudo chown -R $USER: ~/git/etc/bind.git
     git push -u origin master
@@ -485,71 +485,73 @@ git_server_install_main_routine() {
   cp -rf post-receive ~/git/etc/bind.git/.gc/.gc-git-hooks/
   chmod 750 ~/git/etc/bind.git/.gc/.gc-git-hooks/post-receive
 
-  sudo gpasswd -a $USER bind
-  sudo chown -R root:bind /etc/bind
-  sudo chmod 775 /etc/bind
+  # sudo gpasswd -a $USER bind
+  # sudo chown -R root:bind /etc/bind
+  # sudo chmod 775 /etc/bind
 
-  sudo ls /etc/bind/.git >/dev/null 2>&1
-  if [ $? -ne 0 ]; then
-    echo "Initializing git repo for bind DNS settings: /etc/bind"
-    echo "It will pull regularly from: ~/git/etc/bind.git"
-    echo ""
-    # sudo .gc/init.sh /etc/bind
+  # sudo ls /etc/bind/.git >/dev/null 2>&1
+  # if [ $? -ne 0 ]; then
+  #   echo "Initializing git repo for bind DNS settings: /etc/bind"
+  #   echo "It will pull regularly from: ~/git/etc/bind.git"
+  #   echo ""
+  #   # sudo .gc/init.sh /etc/bind
 
-    sudo chmod 775 /etc/bind
-    cd /etc/bind
-    sudo git init
-    echo ""
-    sudo chown -R $USER: /etc/bind/.git
-    sudo chmod 770 /etc/bind/.git
-    git remote add origin ~/git/etc/bind.git || \
-    git remote set-url origin ~/git/etc/bind.git
+  #   sudo chmod 775 /etc/bind
+  #   cd /etc/bind
+  #   sudo git init
+  #   echo ""
+  #   sudo chown -R $USER: /etc/bind/.git
+  #   sudo chmod 770 /etc/bind/.git
+  #   git remote add origin ~/git/etc/bind.git || \
+  #   git remote set-url origin ~/git/etc/bind.git
 
 
-    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind remote add origin ~/git/etc/bind.git
-    echo ""
-    echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
-    echo ""
+  #   # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind remote add origin ~/git/etc/bind.git
+  #   echo ""
+  #   echo "Committing bind DNS config and pushing to remote: ~/git/etc/bind.git"
+  #   echo ""
     
-    git add .
-    git commit -m "Initial commit"
-    sudo chown -R $USER: .git
-    sudo chown -R $USER: ~/git/etc/bind.git
-    git push -u origin master
-    echo ""
-  else
-    echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
+  #   git add .
+  #   git commit -m "Initial commit"
+  #   sudo chown -R $USER: .git
+  #   sudo chown -R $USER: ~/git/etc/bind.git
+  #   git push -u origin master
+  #   echo ""
+  # else
 
-    sudo chmod 775 /etc/bind
-    cd /etc/bind
+  # echo "Pulling latest bind DNS config changes, if any, from origin remote: ~/git/etc/bind.git"
 
-    sudo chown -R $USER: /etc/bind/.git
-    sudo chmod 770 /etc/bind/.git
-    
-    sudo chown -R $USER: ~/git/etc/bind.git
+  # sudo chmod 775 /etc/bind
+  # cd /etc/bind
 
-    sudo git reset --hard HEAD
-    # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
-    sudo git pull --no-edit origin master
+  # sudo chown -R $USER: /etc/bind/.git
+  # sudo chmod 770 /etc/bind/.git
+  
+  # sudo chown -R $USER: ~/git/etc/bind.git
 
-    git add .
-    git commit -m "Update commit"
+  # sudo git reset --hard HEAD
+  # # sudo git --git-dir=/etc/bind/.git --work-tree=/etc/bind fetch --all
+  # sudo git pull --no-edit origin master
 
-    git push -u origin master
-    
-    echo ""
-  fi
+  # git add .
+  # git commit -m "Update commit"
 
-  cd ~/git-server/discover-git-server-dns
+  # git push -u origin master
+  
+  # echo ""
 
-  sudo systemctl try-restart bind9 || \
-  sudo systemctl try-restart named
-  sudo systemctl daemon-reload
+  # fi
 
-  # Update bind DNS SRV records on detected git servers.
-  # ./git-update-srv.sh $@
-  { ./git-update-srv.sh $@; git_server_install_main_res=$?; }
-  git_server_install_main_res=$?
+  # cd ~/git-server/discover-git-server-dns
+
+  # sudo systemctl try-restart bind9 || \
+  # sudo systemctl try-restart named
+  # sudo systemctl daemon-reload
+
+  # # Update bind DNS SRV records on detected git servers.
+  # # ./git-update-srv.sh $@
+  # { ./git-update-srv.sh $@; git_server_install_main_res=$?; }
+  # git_server_install_main_res=$?
 
   echo ""
 
